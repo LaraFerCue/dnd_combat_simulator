@@ -29,6 +29,17 @@ class Weapon:
         self.__damage = damage
         self.__weapon_type = weapon_type
         self.__properties = properties
+        self.__ammo: int = 0
+
+    @property
+    def ammo(self):
+        return self.__ammo
+
+    @ammo.setter
+    def ammo(self, value):
+        if value < 0:
+            raise AttributeError("Ammo cannot be negative")
+        self.__ammo = value
 
     def get_damage(self, strength_mod: int, dexterity_mod: int):
         if self.__weapon_type in [WeaponType.SIMPLE_MELEE, WeaponType.MARTIAL_MELEE]:
@@ -37,6 +48,9 @@ class Weapon:
                 if dexterity_mod > strength_mod:
                     attack_mod = dexterity_mod
         else:
+            if self.__ammo <= 0:
+                return 0
+            self.ammo -= 1
             attack_mod = dexterity_mod
 
         damage = int(uniform(self.__damage[0], self.__damage[1]))

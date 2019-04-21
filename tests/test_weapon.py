@@ -1,8 +1,16 @@
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 
 
+def test_ranged_weapon_without_ammo():
+    ranged = Weapon((1, 4), WeaponType.SIMPLE_RANGED)
+
+    damage = ranged.get_damage(0, 0)
+    assert damage == 0
+
+
 def test_ranged_weapon():
     ranged = Weapon((1, 4), WeaponType.SIMPLE_RANGED)
+    ranged.ammo = 20
 
     damage = ranged.get_damage(0, 0)
     assert damage in range(1, 5)
