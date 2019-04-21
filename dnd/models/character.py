@@ -1,5 +1,9 @@
 from enum import Enum
-from typing import Dict
+from typing import Dict, List
+
+from dnd.models.armor import Armor
+from dnd.models.spell import Spell
+from dnd.models.weapon import Weapon
 
 
 class Ability(Enum):
@@ -29,7 +33,10 @@ class Character:
             Ability.CHARISMA: charisma
         }
         self.__proficiency: int = 2
-        self.__armor_class = 10 + Character.get_modifier(dexterity)
+        self.armor: Armor = None
+        self.weapons: List[Weapon] = []
+        self.active_weapon: Weapon = None
+        self.spell_list: List[Spell] = []
 
     @property
     def proficiency(self) -> int:
