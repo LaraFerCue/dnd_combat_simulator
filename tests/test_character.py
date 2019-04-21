@@ -23,3 +23,17 @@ def test_character_get_modifier():
     assert Character.get_modifier(8) == -1
     assert Character.get_modifier(11) == 0
     assert Character.get_modifier(12) == 1
+
+
+def test_character_default_proficiency_value():
+    assert Character(10, 10, 10, 10, 10, 10).proficiency == 2
+
+
+def test_character_set_proficiency_value():
+    character = Character(10, 10, 10, 10, 10, 10)
+    character.proficiency = 3
+
+    assert character.proficiency == 3
+
+    with pytest.raises(AttributeError):
+        character.proficiency = -2

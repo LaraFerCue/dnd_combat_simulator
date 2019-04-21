@@ -34,6 +34,17 @@ class Character:
             Ability.WISDOM: Character.get_modifier(self.wisdom),
             Ability.CHARISMA: Character.get_modifier(self.charisma)
         }
+        self.__proficiency: int = 2
+
+    @property
+    def proficiency(self) -> int:
+        return self.__proficiency
+
+    @proficiency.setter
+    def proficiency(self, value: int):
+        if value < 0:
+            raise AttributeError(f"The proficiency value cannot be negative. Value: {value}.")
+        self.__proficiency = value
 
     @staticmethod
     def check_ability(ability: int, ability_name: Ability):
