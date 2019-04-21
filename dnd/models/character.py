@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Dict
 
 
 class Ability(Enum):
@@ -26,15 +25,8 @@ class Character:
         self.intelligence = intelligence
         self.wisdom = wisdom
         self.charisma = charisma
-        self.saving_throws: Dict[Ability, int] = {
-            Ability.STRENGTH: Character.get_modifier(self.strength),
-            Ability.DEXTERITY: Character.get_modifier(self.dexterity),
-            Ability.CONSTITUTION: Character.get_modifier(self.constitution),
-            Ability.INTELLIGENCE: Character.get_modifier(self.intelligence),
-            Ability.WISDOM: Character.get_modifier(self.wisdom),
-            Ability.CHARISMA: Character.get_modifier(self.charisma)
-        }
         self.__proficiency: int = 2
+        self.__armor_class = 10 + Character.get_modifier(self.dexterity)
 
     @property
     def proficiency(self) -> int:
