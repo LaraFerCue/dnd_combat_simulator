@@ -49,7 +49,7 @@ class Weapon:
                 if dexterity_mod > strength_mod:
                     attack_mod = dexterity_mod
         else:
-            if self.__ammo <= 0:
+            if WeaponProperty.AMMUNITION in self.__properties and self.__ammo <= 0:
                 return 0
             self.ammo -= 1
             attack_mod = dexterity_mod

@@ -3,14 +3,14 @@ from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 
 
 def test_ranged_weapon_without_ammo():
-    ranged = Weapon(D4, WeaponType.SIMPLE_RANGED)
+    ranged = Weapon(D4, WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
 
     damage = ranged.get_damage(0, 0)
     assert damage == 0
 
 
 def test_ranged_weapon():
-    ranged = Weapon(D4, WeaponType.SIMPLE_RANGED)
+    ranged = Weapon(D4, WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
     ranged.ammo = 20
 
     damage = ranged.get_damage(0, 0)
