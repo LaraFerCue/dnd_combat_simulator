@@ -1,6 +1,7 @@
 from enum import Enum
-from random import uniform
-from typing import List, Tuple
+from typing import List
+
+from dnd.models.die import Die
 
 
 class WeaponType(Enum):
@@ -25,7 +26,7 @@ class WeaponProperty(Enum):
 
 
 class Weapon:
-    def __init__(self, damage: Tuple[int, int], weapon_type: WeaponType, properties: List[WeaponProperty] = ()):
+    def __init__(self, damage: Die, weapon_type: WeaponType, properties: List[WeaponProperty] = ()):
         self.__damage = damage
         self.__weapon_type = weapon_type
         self.__properties = properties
@@ -53,5 +54,5 @@ class Weapon:
             self.ammo -= 1
             attack_mod = dexterity_mod
 
-        damage = int(uniform(self.__damage[0], self.__damage[1]))
+        damage = self.__damage.roll()
         return damage + attack_mod
