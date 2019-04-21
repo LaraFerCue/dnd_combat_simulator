@@ -1,10 +1,12 @@
+from dnd.models.damage import DamageType, Damage
 from dnd.models.die import D6, D4
 
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 
 
 def test_ranged_weapon_without_ammo():
-    ranged = Weapon([D4], WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
+    damage = Damage([D4], DamageType.PIERCING)
+    ranged = Weapon(damage, WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
 
     for _ in range(0, 5000):
         damage = ranged.get_damage(0, 0)
@@ -12,7 +14,8 @@ def test_ranged_weapon_without_ammo():
 
 
 def test_ranged_weapon():
-    ranged = Weapon([D4], WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
+    damage = Damage([D4], DamageType.PIERCING)
+    ranged = Weapon(damage, WeaponType.SIMPLE_RANGED, [WeaponProperty.AMMUNITION])
     ranged.ammo = 200000
 
     for _ in range(0, 5000):
@@ -29,7 +32,8 @@ def test_ranged_weapon():
 
 
 def test_melee_weapon_without_finesse():
-    ranged = Weapon([D4], WeaponType.SIMPLE_MELEE)
+    damage = Damage([D4], DamageType.PIERCING)
+    ranged = Weapon(damage, WeaponType.SIMPLE_MELEE)
 
     for _ in range(0, 5000):
         damage = ranged.get_damage(0, 0)
@@ -45,7 +49,8 @@ def test_melee_weapon_without_finesse():
 
 
 def test_melee_weapon_with_finesse():
-    ranged = Weapon([D4], WeaponType.SIMPLE_MELEE, [WeaponProperty.FINESSE])
+    damage = Damage([D4], DamageType.PIERCING)
+    ranged = Weapon(damage, WeaponType.SIMPLE_MELEE, [WeaponProperty.FINESSE])
 
     for _ in range(0, 5000):
         damage = ranged.get_damage(0, 0)
@@ -61,7 +66,8 @@ def test_melee_weapon_with_finesse():
 
 
 def test_weapon_with_several_damage_die():
-    ranged = Weapon([D6, D6], WeaponType.SIMPLE_MELEE, [WeaponProperty.FINESSE])
+    damage = Damage([D6, D6], DamageType.PIERCING)
+    ranged = Weapon(damage, WeaponType.SIMPLE_MELEE, [WeaponProperty.FINESSE])
 
     for _ in range(0, 5000):
         damage = ranged.get_damage(0, 0)
