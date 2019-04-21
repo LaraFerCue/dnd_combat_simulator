@@ -26,7 +26,7 @@ class WeaponProperty(Enum):
 
 
 class Weapon:
-    def __init__(self, damage: Die, weapon_type: WeaponType, properties: List[WeaponProperty] = ()):
+    def __init__(self, damage: List[Die], weapon_type: WeaponType, properties: List[WeaponProperty] = ()):
         self.__damage = damage
         self.__weapon_type = weapon_type
         self.__properties = properties
@@ -54,5 +54,7 @@ class Weapon:
             self.ammo -= 1
             attack_mod = dexterity_mod
 
-        damage = self.__damage.roll()
+        damage = 0
+        for die in self.__damage:
+            damage += die.roll()
         return damage + attack_mod
