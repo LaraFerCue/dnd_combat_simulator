@@ -66,3 +66,10 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
+/.idea/
+/.idea/.name
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/encodings.xml
+/dnd_combat_simulator.iml
