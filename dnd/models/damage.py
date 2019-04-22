@@ -5,10 +5,33 @@ from dnd.models.die import Die
 
 
 class DamageType(Enum):
+    ACID = "Acid"
     BLUDGEONING = "Bludgeoning"
+    COLD = "Cold"
+    FIRE = "Fire"
+    FORCE = "Force"
+    LIGHTNING = "Lightning"
+    NECROTIC = "Necrotic"
     PIERCING = "Piercing"
+    POISON = "Poison"
+    PSYCHIC = "Psychic"
+    RADIANT = "Radiant"
     SLASHING = "Slashing"
-    MAGIC = "Magic"
+    THUNDER = "Thunder"
+
+    MAGIC_ACID = "Acid"
+    MAGIC_BLUDGEONING = "Bludgeoning"
+    MAGIC_COLD = "Cold"
+    MAGIC_FIRE = "Fire"
+    MAGIC_FORCE = "Force"
+    MAGIC_LIGHTNING = "Lightning"
+    MAGIC_NECROTIC = "Necrotic"
+    MAGIC_PIERCING = "Piercing"
+    MAGIC_POISON = "Poison"
+    MAGIC_PSYCHIC = "Psychic"
+    MAGIC_RADIANT = "Radiant"
+    MAGIC_SLASHING = "Slashing"
+    MAGIC_THUNDER = "Thunder"
 
 
 class Damage:
