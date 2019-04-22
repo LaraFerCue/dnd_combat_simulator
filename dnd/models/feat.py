@@ -1,13 +1,25 @@
+from enum import Enum
+
 from dnd.models.damage import DamageType
 
 
+class FeatType(Enum):
+    NONE = "None"
+    RESISTANCE = "Resistance"
+
+
 class Feat:
-    def __init__(self, name: str):
+    def __init__(self, name: str, feat_type: FeatType = FeatType.NONE):
         self.__name = name
+        self.__type = feat_type
 
     @property
     def name(self):
         return self.__name
+
+    @property
+    def feat_type(self) -> FeatType:
+        return self.__type
 
     @staticmethod
     def from_dict(**kwargs):
@@ -22,8 +34,12 @@ class Feat:
 
 class Resistance(Feat):
     def __init__(self, damage_type: DamageType):
-        super().__init__("Resistance")
+        super().__init__("Resistance", FeatType.RESISTANCE)
         self.__damage_type = damage_type
+
+    @property
+    def damage_type(self) -> DamageType:
+        return self.__damage_type
 
     def modify_damage(self, damage: int, damage_type: DamageType) -> int:
         if damage_type == self.__damage_type:

@@ -1,6 +1,8 @@
 import pytest
 
 from dnd.models.character import Character, Ability
+from dnd.models.damage import DamageType
+from dnd.models.feat import Resistance
 
 
 def test_character_check_ability_negative():
@@ -26,14 +28,31 @@ def test_character_get_modifier():
 
 
 def test_character_default_proficiency_value():
-    assert Character(10, 10, 10, 10, 10, 10).proficiency == 2
+    assert Character(10, 10, 10, 10, 10, 10, 10).proficiency == 2
 
 
 def test_character_set_proficiency_value():
-    character = Character(10, 10, 10, 10, 10, 10)
+    character = Character(10, 10, 10, 10, 10, 10, 10)
     character.proficiency = 3
 
     assert character.proficiency == 3
 
     with pytest.raises(AttributeError):
         character.proficiency = -2
+
+
+def test_character_apply_damage():
+    character = Character(10, 10, 10, 10, 10, 10, 10)
+    character.apply_damage(5, DamageType.MAGIC)
+
+    assert character.hit_points == 5
+
+
+def test_character_apply_damage_with_resistance():
+    character = Character(10, 10, 10, 10, 10, 10, 10)
+    character.feat_list.append(Resistance(DamageType.PIERCING))
+
+    character.apply_damage(4, DamageType.PIERCING)
+    assert character.hit_points == 8
+    character.apply_damage(4, DamageType.MAGIC)
+    assert character.hit_points == 4
