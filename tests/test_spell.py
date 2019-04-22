@@ -4,7 +4,7 @@ from dnd.models.spell import Spell
 
 
 def test_spell():
-    spell = Spell(Damage([D10], DamageType.MAGIC))
+    spell = Spell(Damage([D10], DamageType.MAGIC_ACID))
 
     for _ in range(0, 5000):
         assert spell.get_damage() in range(1, 11)

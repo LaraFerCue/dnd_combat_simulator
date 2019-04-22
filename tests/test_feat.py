@@ -1,5 +1,5 @@
 from dnd.models.damage import DamageType
-from dnd.models.feat import Feat, Resistance
+from dnd.models.feat import Feat, Resistance, Vulnerability
 
 
 def test_get_feat_by_name():
@@ -11,4 +11,11 @@ def test_resistance():
     resistance = Resistance(DamageType.PIERCING)
 
     assert resistance.modify_damage(10, DamageType.PIERCING) == 5
-    assert resistance.modify_damage(10, DamageType.MAGIC) == 10
+    assert resistance.modify_damage(10, DamageType.MAGIC_ACID) == 10
+
+
+def test_vulnerability():
+    resistance = Vulnerability(DamageType.PIERCING)
+
+    assert resistance.modify_damage(10, DamageType.PIERCING) == 20
+    assert resistance.modify_damage(10, DamageType.MAGIC_ACID) == 10

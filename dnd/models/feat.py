@@ -51,3 +51,24 @@ class Resistance(Feat):
         if 'damage_type' not in kwargs.keys():
             raise ValueError(f'Wrong dictionary passed for Resistance {kwargs}')
         return Resistance(damage_type=kwargs['damage_type'])
+
+
+class Vulnerability(Feat):
+    def __init__(self, damage_type: DamageType):
+        super().__init__("Vulnerability", FeatType.RESISTANCE)
+        self.__damage_type = damage_type
+
+    @property
+    def damage_type(self) -> DamageType:
+        return self.__damage_type
+
+    def modify_damage(self, damage: int, damage_type: DamageType) -> int:
+        if damage_type == self.__damage_type:
+            return int(damage * 2)
+        return damage
+
+    @staticmethod
+    def from_dict(**kwargs):
+        if 'damage_type' not in kwargs.keys():
+            raise ValueError(f'Wrong dictionary passed for Resistance {kwargs}')
+        return Resistance(damage_type=kwargs['damage_type'])

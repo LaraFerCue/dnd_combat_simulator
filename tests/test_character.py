@@ -43,7 +43,7 @@ def test_character_set_proficiency_value():
 
 def test_character_apply_damage():
     character = Character(10, 10, 10, 10, 10, 10, 10)
-    character.apply_damage(5, DamageType.MAGIC)
+    character.apply_damage(5, DamageType.MAGIC_ACID)
 
     assert character.hit_points == 5
 
@@ -54,5 +54,5 @@ def test_character_apply_damage_with_resistance():
 
     character.apply_damage(4, DamageType.PIERCING)
     assert character.hit_points == 8
-    character.apply_damage(4, DamageType.MAGIC)
+    character.apply_damage(4, DamageType.MAGIC_ACID)
     assert character.hit_points == 4
