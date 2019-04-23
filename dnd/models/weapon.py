@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Union
+from typing import Union, Dict, Tuple
 
 from dnd.models.damage import Damage
 
@@ -26,14 +26,15 @@ class WeaponProperty(Enum):
 
 
 class Weapon:
-    def __init__(self, damage: Union[List[Damage], Damage], weapon_type: WeaponType,
-                 properties: List[WeaponProperty] = ()):
-        if WeaponProperty.VERSATILE in properties and isinstance(damage, Damage):
-            raise ValueError("If the weapon is not versatile, the damage must unique")
-        self.__damage: Union[Damage, List[Damage]] = damage
+    def __init__(self, damage: Damage, weapon_type: WeaponType,
+                 properties: Dict[WeaponProperty, Union[Tuple[int, int], None, Damage]] = ()):
+        self.__damage: Damage = damage
         self.__weapon_type = weapon_type
         self.__properties = properties
         self.__ammo: int = 0
+
+        if WeaponProperty.VERSATILE in properties and not isinstance(properties[WeaponProperty.VERSATILE], Damage):
+            raise ValueError('Versatile needs a Damage value')
 
     @property
     def ammo(self):
@@ -56,9 +57,10 @@ class Weapon:
                 return 0
             self.ammo -= 1
             attack_mod = dexterity_mod
-        if WeaponProperty.VERSATILE in self.__properties:
-            if use_two_handed:
-                return self.__damage[1].get_damage() + attack_mod
-            else:
-                return self.__damage[0].get_damage() + attack_mod
+        if WeaponProperty.VERSATILE in self.__properties and use_two_handed:
+            return self.__properties[WeaponProperty.VERSATILE].get_damage() + attack_mod
         return self.__damage.get_damage() + attack_mod
+
+    @staticmethod
+    def create_simple_melee_weapon(damage: Damage, **kwargs):
+        return Weapon(damage=damage, weapon_type=WeaponType.SIMPLE_MELEE, properties={**kwargs})

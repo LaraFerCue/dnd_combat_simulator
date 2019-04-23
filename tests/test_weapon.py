@@ -85,12 +85,12 @@ def test_weapon_with_several_damage_die():
 
 def test_weapon_with_versatility_but_only_one_die():
     with pytest.raises(ValueError):
-        Weapon(Damage([D4], DamageType.SLASHING), WeaponType.MARTIAL_MELEE, [WeaponProperty.VERSATILE])
+        Weapon(Damage([D4], DamageType.SLASHING), WeaponType.MARTIAL_MELEE, {WeaponProperty.VERSATILE: None})
 
 
 def test_weapon_damage_with_versatility():
-    weapon = Weapon([Damage([D4], DamageType.SLASHING), Damage([D6], DamageType.SLASHING)], WeaponType.MARTIAL_MELEE,
-                    [WeaponProperty.VERSATILE])
+    weapon = Weapon(Damage([D4], DamageType.SLASHING), WeaponType.MARTIAL_MELEE,
+                    {WeaponProperty.VERSATILE: Damage([D6], DamageType.SLASHING)})
 
     for _ in range(0, 5000):
         assert weapon.get_damage(0, 0, False) in range(1, 5)
