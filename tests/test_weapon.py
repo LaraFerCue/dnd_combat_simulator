@@ -1,6 +1,7 @@
+import pytest
+
 from dnd.models.damage import DamageType, Damage
 from dnd.models.die import D6, D4
-
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 
 
@@ -80,3 +81,17 @@ def test_weapon_with_several_damage_die():
     for _ in range(0, 5000):
         damage = ranged.get_damage(0, 5)
         assert damage in range(7, 18)
+
+
+def test_weapon_with_versatility_but_only_one_die():
+    with pytest.raises(ValueError):
+        Weapon(Damage([D4], DamageType.SLASHING), WeaponType.MARTIAL_MELEE, [WeaponProperty.VERSATILE])
+
+
+def test_weapon_damage_with_versatility():
+    weapon = Weapon([Damage([D4], DamageType.SLASHING), Damage([D6], DamageType.SLASHING)], WeaponType.MARTIAL_MELEE,
+                    [WeaponProperty.VERSATILE])
+
+    for _ in range(0, 5000):
+        assert weapon.get_damage(0, 0, False) in range(1, 5)
+        assert weapon.get_damage(0, 0, True) in range(1, 7)

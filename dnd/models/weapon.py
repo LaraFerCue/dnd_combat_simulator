@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 from dnd.models.damage import Damage
 
@@ -26,8 +26,11 @@ class WeaponProperty(Enum):
 
 
 class Weapon:
-    def __init__(self, damage: Damage, weapon_type: WeaponType, properties: List[WeaponProperty] = ()):
-        self.__damage = damage
+    def __init__(self, damage: Union[List[Damage], Damage], weapon_type: WeaponType,
+                 properties: List[WeaponProperty] = ()):
+        if WeaponProperty.VERSATILE in properties and isinstance(damage, Damage):
+            raise ValueError("If the weapon is not versatile, the damage must unique")
+        self.__damage: Union[Damage, List[Damage]] = damage
         self.__weapon_type = weapon_type
         self.__properties = properties
         self.__ammo: int = 0
@@ -42,7 +45,7 @@ class Weapon:
             raise AttributeError("Ammo cannot be negative")
         self.__ammo = value
 
-    def get_damage(self, strength_mod: int, dexterity_mod: int):
+    def get_damage(self, strength_mod: int, dexterity_mod: int, use_two_handed: bool = False):
         if self.__weapon_type in [WeaponType.SIMPLE_MELEE, WeaponType.MARTIAL_MELEE]:
             attack_mod = strength_mod
             if WeaponProperty.FINESSE in self.__properties:
@@ -53,5 +56,9 @@ class Weapon:
                 return 0
             self.ammo -= 1
             attack_mod = dexterity_mod
-
+        if WeaponProperty.VERSATILE in self.__properties:
+            if use_two_handed:
+                return self.__damage[1].get_damage() + attack_mod
+            else:
+                return self.__damage[0].get_damage() + attack_mod
         return self.__damage.get_damage() + attack_mod
