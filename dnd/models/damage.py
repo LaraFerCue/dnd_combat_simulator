@@ -41,6 +41,9 @@ class Damage:
         self.__dice_list = dice_list
         self.__damage_type = damage_type
 
+    def __repr__(self):
+        return f"{str(self.__dice_list)} | {str(self.__damage_type.value)}"
+
     @property
     def damage_type(self):
         return self.__damage_type

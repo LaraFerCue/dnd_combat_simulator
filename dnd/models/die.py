@@ -5,6 +5,9 @@ class Die:
     def __init__(self, sides: int):
         self.__sides = sides
 
+    def __repr__(self):
+        return f"D{self.__sides}"
+
     def roll(self):
         return round(uniform(1, self.__sides))
 
