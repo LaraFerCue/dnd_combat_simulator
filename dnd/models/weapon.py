@@ -12,25 +12,25 @@ class WeaponType(Enum):
 
 
 class WeaponProperty(Enum):
-    AMMUNITION = "Ammunition"
-    FINESSE = "Finesse"
-    HEAVY = "Heavy"
-    LIGHT = "Light"
-    LOADING = "Loading"
-    RANGE = "Range"
-    REACH = "Reach"
-    SPECIAL = "Special"
-    THROWN = "Thrown"
-    TWO_HANDED = "Two-Handed"
-    VERSATILE = "Versatile"
+    AMMUNITION = "ammunition"
+    FINESSE = "finesse"
+    HEAVY = "heavy"
+    LIGHT = "light"
+    LOADING = "loading"
+    RANGE = "range"
+    REACH = "reach"
+    SPECIAL = "special"
+    THROWN = "thrown"
+    TWO_HANDED = "two_handed"
+    VERSATILE = "versatile"
 
 
 class Weapon:
     def __init__(self, damage: Damage, weapon_type: WeaponType,
-                 properties: Dict[WeaponProperty, Union[Tuple[int, int], None, Damage]] = ()):
+                 properties: Dict[WeaponProperty, Union[Tuple[int, int], bool, Damage]] = {}):
         self.__damage: Damage = damage
         self.__weapon_type = weapon_type
-        self.__properties = properties
+        self.__properties: Dict[WeaponProperty, Union[Tuple[int, int], bool, Damage]] = properties
         self.__ammo: int = 0
 
         if WeaponProperty.VERSATILE in properties and not isinstance(properties[WeaponProperty.VERSATILE], Damage):
@@ -61,6 +61,62 @@ class Weapon:
             return self.__properties[WeaponProperty.VERSATILE].get_damage() + attack_mod
         return self.__damage.get_damage() + attack_mod
 
+    def __hash__(self):
+        calculated_hash: int = 0
+
+        for key, value in self.__properties.items():
+            calculated_hash += hash(key.value)
+            if isinstance(value, Damage) or isinstance(value, bool):
+                calculated_hash += hash(value)
+            else:
+                calculated_hash += hash(value[0] + value[1])
+        return hash(self.__damage) + hash(self.__weapon_type.value) + calculated_hash + self.__ammo
+
+    def __eq__(self, other: 'Weapon'):
+        return self.__hash__() == other.__hash__()
+
+    def __ne__(self, other: 'Weapon'):
+        return self.__hash__() != other.__hash__()
+
+    def __gt__(self, other: 'Weapon'):
+        return self.__hash__() > other.__hash__()
+
+    def __lt__(self, other: 'Weapon'):
+        return self.__hash__() < other.__hash__()
+
+    def __ge__(self, other: 'Weapon'):
+        return not self < other
+
+    def __le__(self, other):
+        return not self > other
+
     @staticmethod
-    def create_simple_melee_weapon(damage: Damage, **kwargs):
-        return Weapon(damage=damage, weapon_type=WeaponType.SIMPLE_MELEE, properties={**kwargs})
+    def simple_melee(**kwargs):
+        return Weapon.__create_weapon(WeaponType.SIMPLE_MELEE, **kwargs)
+
+    @staticmethod
+    def simple_ranged(**kwargs):
+        return Weapon.__create_weapon(WeaponType.SIMPLE_RANGED, **kwargs)
+
+    @staticmethod
+    def martial_melee(**kwargs):
+        return Weapon.__create_weapon(WeaponType.MARTIAL_MELEE, **kwargs)
+
+    @staticmethod
+    def martial_ranged(**kwargs):
+        return Weapon.__create_weapon(WeaponType.MARTIAL_RANGED, **kwargs)
+
+    @staticmethod
+    def __create_weapon(weapon_type: WeaponType, **kwargs):
+        if 'versatile' in kwargs:
+            versatile = Damage(kwargs['versatile'], kwargs['damage_type'])
+            kwargs['versatile'] = versatile
+
+        damage = Damage(kwargs['die_list'], kwargs['damage_type'])
+        del kwargs['die_list']
+        del kwargs['damage_type']
+
+        properties = {}
+        for key, value in kwargs.items():
+            properties[WeaponProperty(key)] = value
+        return Weapon(damage=damage, weapon_type=weapon_type, properties=properties)
