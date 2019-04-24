@@ -8,8 +8,8 @@ class Die:
     def __repr__(self):
         return f"D{self.__sides}"
 
-    def __hash__(self):
-        return str(hash(self.__sides))
+    def __hash__(self) -> int:
+        return self.__sides
 
     def __eq__(self, other: 'Die'):
         return self.__sides == other.__sides
