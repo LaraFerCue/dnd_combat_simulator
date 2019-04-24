@@ -44,3 +44,17 @@ def test_twelve_sided_die():
 
 def test_twenty_sided_die():
     assert get_die_results(20) == get_incremental_set(20)
+
+
+def test_dice_with_same_number_of_sides():
+    die1 = Die(8)
+    die2 = Die(8)
+
+    assert die1 == die2
+
+
+def test_dice_with_different_number_of_sides():
+    die1 = Die(8)
+    die2 = Die(10)
+
+    assert die1 != die2
