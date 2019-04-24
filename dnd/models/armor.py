@@ -12,6 +12,27 @@ class Armor:
         self.__armor_class = armor_class
         self.__type = armor_type
 
+    def __hash__(self):
+        return self.__armor_class + hash(self.__type.value)
+
+    def __eq__(self, other: 'Armor'):
+        return self.__hash__() == other.__hash__()
+
+    def __ne__(self, other: 'Armor'):
+        return not self == other
+
+    def __gt__(self, other: 'Armor'):
+        return self.__hash__() > other.__hash__()
+
+    def __lt__(self, other: 'Armor'):
+        return self.__hash__() < other.__hash__()
+
+    def __ge__(self, other):
+        return not self < other
+
+    def __le__(self, other):
+        return not self > other
+
     @property
     def armor_type(self):
         return self.__type

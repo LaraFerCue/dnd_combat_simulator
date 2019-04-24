@@ -41,3 +41,16 @@ def test_heavy_armor_with_shield():
 
     for modifier in range(-5, 6):
         assert heavy_armor.get_armor_class(modifier, True) == 20
+
+
+def test_equal_armors():
+    armor1 = Armor(10, ArmorType.LIGHT)
+    armor2 = Armor(10, ArmorType.LIGHT)
+
+    assert armor1 == armor2
+
+
+def test_different_armors():
+    assert Armor(10, ArmorType.LIGHT) != Armor(11, ArmorType.LIGHT)
+    assert Armor(10, ArmorType.LIGHT) != Armor(10, ArmorType.HEAVY)
+    assert Armor(10, ArmorType.HEAVY) != Armor(11, ArmorType.LIGHT)
