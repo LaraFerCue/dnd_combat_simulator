@@ -1,7 +1,7 @@
 import pytest
 
 from dnd.models.damage import Damage, DamageType
-from dnd.models.die import D10, D6
+from dnd.models.die import D10, D6, D4
 
 
 def test_damage_single_die():
@@ -21,3 +21,23 @@ def test_damage_multiple_dice():
 def test_damage_without_die():
     with pytest.raises(ValueError):
         Damage([], DamageType.BLUDGEONING)
+
+
+def test_two_equal_damage_classes():
+    damage1 = Damage([D6], DamageType.BLUDGEONING)
+    damage2 = Damage([D6], DamageType.BLUDGEONING)
+
+    assert damage1 == damage2
+
+
+def test_different_damage_classes():
+    damage1 = Damage([D4], DamageType.BLUDGEONING)
+    damage2 = Damage([D6], DamageType.BLUDGEONING)
+
+    assert damage1 != damage2
+
+    damage1 = Damage([D6, D6], DamageType.BLUDGEONING)
+    assert damage1 != damage2
+
+    damage1 = Damage([D6], DamageType.PIERCING)
+    assert damage1 != damage2

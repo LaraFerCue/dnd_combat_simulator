@@ -44,6 +44,30 @@ class Damage:
     def __repr__(self):
         return f"{str(self.__dice_list)} | {str(self.__damage_type.value)}"
 
+    def __hash__(self) -> int:
+        calculated_hash: int = 0
+        for die in self.__dice_list:
+            calculated_hash += hash(die)
+        return calculated_hash + hash(self.__damage_type.value)
+
+    def __eq__(self, other: 'Damage'):
+        return self.__hash__() == other.__hash__()
+
+    def __ne__(self, other: 'Damage'):
+        return self.__hash__() != other.__hash__()
+
+    def __gt__(self, other: 'Damage'):
+        return self.__hash__() > other.__hash__()
+
+    def __lt__(self, other: 'Damage'):
+        return self.__hash__() < other.__hash__()
+
+    def __ge__(self, other: 'Damage'):
+        return self > other or self == other
+
+    def __le__(self, other: 'Damage'):
+        return self < other or self == other
+
     @property
     def damage_type(self):
         return self.__damage_type
