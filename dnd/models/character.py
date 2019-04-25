@@ -27,13 +27,15 @@ class CharacterCategory(Enum):
 class Character:
     def __init__(self, strength: int, dexterity: int, constitution: int,
                  intelligence: int, wisdom: int, charisma: int, hit_points: int,
-                 category: CharacterCategory = CharacterCategory.INDIFFERENT):
+                 category: CharacterCategory = CharacterCategory.INDIFFERENT, name: str = ""):
         Character.check_ability(strength, Ability.STRENGTH)
         Character.check_ability(dexterity, Ability.DEXTERITY)
         Character.check_ability(constitution, Ability.CONSTITUTION)
         Character.check_ability(intelligence, Ability.INTELLIGENCE)
         Character.check_ability(wisdom, Ability.WISDOM)
         Character.check_ability(charisma, Ability.CHARISMA)
+
+        self.__name = name
 
         self.abilities: Dict[Ability, int] = {
             Ability.STRENGTH: strength,
@@ -55,6 +57,10 @@ class Character:
 
         self.__health_points: int = hit_points
         self.__category = category
+
+    @property
+    def name(self) -> str:
+        return self.__name
 
     @property
     def armor_class(self):
