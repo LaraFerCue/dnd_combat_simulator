@@ -84,16 +84,16 @@ class Weapon:
         return hash(self.__damage) + hash(self.__weapon_type.value) + calculated_hash + self.__ammo
 
     def __eq__(self, other: 'Weapon'):
-        return self.__hash__() == other.__hash__()
+        return hash(self) == hash(other)
 
     def __ne__(self, other: 'Weapon'):
-        return self.__hash__() != other.__hash__()
+        return not self == other
 
     def __gt__(self, other: 'Weapon'):
-        return self.__hash__() > other.__hash__()
+        return hash(self) > hash(other)
 
     def __lt__(self, other: 'Weapon'):
-        return self.__hash__() < other.__hash__()
+        return hash(self) < hash(other)
 
     def __ge__(self, other: 'Weapon'):
         return not self < other
