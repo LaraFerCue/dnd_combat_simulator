@@ -5,7 +5,6 @@ from dnd.models.armor import Armor
 from dnd.models.damage import DamageType
 from dnd.models.die import D20, Die
 from dnd.models.feat import Feat, FeatType, Resistance
-from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponProperty
 
 
@@ -52,7 +51,6 @@ class Character:
         self.active_weapon: Weapon = None
         self.using_shield: bool = False
 
-        self.spell_list: List[Spell] = []
         self.feat_list: List[Feat] = []
 
         self.__health_points: int = hit_points
@@ -112,9 +110,6 @@ class Character:
         if self.active_weapon.check_property(WeaponProperty.FINESSE) or self.active_weapon.is_ranged:
             attack_mod = self.get_ability_modifier(Ability.DEXTERITY)
         return die.roll() + attack_mod + self.__proficiency
-
-    def cast(self, die: Die = D20):
-        return die.roll() + self.get_ability_modifier(self.cast_ability) + self.__proficiency
 
     def get_ability_modifier(self, ability: Ability):
         return Character.get_modifier(self.abilities[ability])
