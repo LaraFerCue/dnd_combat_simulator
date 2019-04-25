@@ -1,4 +1,5 @@
 from random import uniform
+from typing import Dict
 
 
 class Die:
@@ -39,3 +40,12 @@ D8 = Die(8)
 D10 = Die(10)
 D12 = Die(12)
 D20 = Die(20)
+
+DICE: Dict[str, Die] = {
+    'D4': D4,
+    'D6': D6,
+    'D8': D8,
+    'D10': D10,
+    'D12': D12,
+    'D20': D20
+}
