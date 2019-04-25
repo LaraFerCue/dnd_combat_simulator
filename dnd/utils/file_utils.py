@@ -90,6 +90,13 @@ def load_weapon_by_name(weapon_name: str):
     return create_weapon_from_json_file(INVENTORY_PATH.joinpath('weapons', f"{weapon_name}.json"))
 
 
+def load_party_from_folder(folder_path: Path) -> List[Character]:
+    character_list: List[Character] = []
+    for file in folder_path.iterdir():
+        character_list.append(create_character_from_json(file))
+    return character_list
+
+
 def get_die_list(string_list: List[str]) -> List[Die]:
     local_die_list: List[Die] = []
     for local_die in string_list:

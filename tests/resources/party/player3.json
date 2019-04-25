@@ -1,0 +1,15 @@
+{
+  "name": "player 3",
+  "abilities": {
+    "strength": 10,
+    "dexterity": 10,
+    "constitution": 10,
+    "intelligence": 10,
+    "wisdom": 10,
+    "charisma": 10
+  },
+  "hit_points": 10,
+  "category": "Playable",
+  "weapon": "weapon",
+  "armor": "armor"
+}
