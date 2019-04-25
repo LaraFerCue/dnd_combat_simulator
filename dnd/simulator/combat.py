@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Callable
+from typing import List, Callable, Dict
 
 from dnd.models.character import Character, CharacterCategory
 from dnd.models.die import D20, Die
@@ -39,6 +39,15 @@ class Combat:
                 armor_class = enemy.armor_class
         return target
 
+    def get_statistics(self) -> Dict:
+        statistics = {'turns': self.__turn, 'players': [], 'enemies': []}
+
+        for player in self.__players:
+            statistics['players'].append({player.name: player.hit_points})
+        for enemy in self.__enemies:
+            statistics['enemies'].append({enemy.name: enemy.hit_points})
+        return statistics
+
     def initiate_combat(self) -> Result:
         while not self.__lose_checker(self.__players):
             self._turn_actions()
@@ -63,6 +72,6 @@ class Combat:
                 raise AttributeError(f"No implemented behavior for character category {character.category.value}")
             if target is None:
                 return
-            if character.attack(self.__die) >= target.armor_class:
+            if character.hit_points > 0 and character.attack(self.__die) >= target.armor_class:
                 target.apply_damage(character.damage(), character.active_weapon.damage.damage_type)
             character = self.__initiative_tracker.get_next_character()

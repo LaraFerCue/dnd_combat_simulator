@@ -118,3 +118,43 @@ def test_lost_combat_several_players_one_enemy():
                     die=MockingDie(10))
 
     assert combat.initiate_combat() == Combat.Result.LOSE
+
+
+def test_get_statistics_basic_combat():
+    player = Character(strength=10, dexterity=10, constitution=10, intelligence=10, wisdom=10, charisma=10,
+                       hit_points=10, category=CharacterCategory.PLAYABLE, name='player')
+    player.active_weapon = DUMMY_PLAYER_WEAPON
+    enemy = Character(strength=10, dexterity=10, constitution=10, intelligence=10, wisdom=10, charisma=10, hit_points=2,
+                      category=CharacterCategory.NON_PLAYABLE, name='enemy')
+    enemy.active_weapon = DUMMY_ENEMY_WEAPON
+
+    combat = Combat(players=[player], enemies=[enemy], lose_checker=dummy_lose_checker, die=MockingDie(15))
+    combat.initiate_combat()
+    statistics = combat.get_statistics()
+
+    assert statistics == {'turns': 1, 'players': [{'player': 10}], 'enemies': [{'enemy': -2}]}
+
+
+def test_get_statistics_huge_combat():
+    player1 = Character(strength=15, dexterity=10, constitution=14, intelligence=10, wisdom=10, charisma=10,
+                        hit_points=20, category=CharacterCategory.PLAYABLE, name='player 1')
+    player2 = Character(strength=15, dexterity=10, constitution=14, intelligence=10, wisdom=10, charisma=10,
+                        hit_points=20, category=CharacterCategory.PLAYABLE, name='player 2')
+    player3 = Character(strength=15, dexterity=10, constitution=14, intelligence=10, wisdom=10, charisma=10,
+                        hit_points=20, category=CharacterCategory.PLAYABLE, name='player 3')
+    player1.active_weapon = DUMMY_PLAYER_WEAPON
+    player2.active_weapon = DUMMY_PLAYER_WEAPON
+    player3.active_weapon = DUMMY_PLAYER_WEAPON
+
+    enemy = Character(strength=18, dexterity=10, constitution=16, intelligence=10, wisdom=10, charisma=10,
+                      hit_points=90, category=CharacterCategory.NON_PLAYABLE, name='beast')
+    enemy.active_weapon = Weapon(damage=Damage([MockingDie(10)], DamageType.PIERCING),
+                                 weapon_type=WeaponType.MARTIAL_MELEE)
+
+    combat = Combat(players=[player1, player2, player3], enemies=[enemy], lose_checker=dummy_lose_checker,
+                    die=MockingDie(10))
+
+    combat.initiate_combat()
+    assert combat.get_statistics() == {'enemies': [{'beast': 54}],
+                                       'players': [{'player 1': -8}, {'player 2': 20}, {'player 3': 20}],
+                                       'turns': 2}
