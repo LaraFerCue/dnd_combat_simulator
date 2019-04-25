@@ -53,6 +53,10 @@ class Character:
         self.__category = category
 
     @property
+    def armor_class(self):
+        return self.armor.get_armor_class(self.get_ability_modifier(Ability.DEXTERITY), self.using_shield)
+
+    @property
     def category(self) -> CharacterCategory:
         return self.__category
 

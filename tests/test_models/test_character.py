@@ -1,5 +1,6 @@
 import pytest
 
+from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, Ability
 from dnd.models.damage import DamageType
 from dnd.models.feat import Resistance
@@ -77,3 +78,12 @@ def test_character_attack_versatile_weapon():
 
     character.using_shield = True
     assert character.damage() == 4
+
+
+def test_character_armor_class():
+    character = Character.new(**DUMMY_CHARACTER)
+    character.armor = Armor(11, ArmorType.LIGHT)
+
+    assert character.armor_class == 11
+    character.using_shield = True
+    assert character.armor_class == 13
