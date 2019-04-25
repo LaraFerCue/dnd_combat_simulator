@@ -83,11 +83,11 @@ def create_character_from_dictionary(json_dict: Dict) -> Character:
 
 
 def load_armor_by_name(armor_name: str):
-    return create_armor_from_json_file(INVENTORY_PATH.joinpath('armors', f"{armor_name}.json"))
+    return create_armor_from_json_file(INVENTORY_PATH.joinpath('armors', f"{armor_name.replace(' ', '_')}.json"))
 
 
 def load_weapon_by_name(weapon_name: str):
-    return create_weapon_from_json_file(INVENTORY_PATH.joinpath('weapons', f"{weapon_name}.json"))
+    return create_weapon_from_json_file(INVENTORY_PATH.joinpath('weapons', f"{weapon_name.replace(' ', '_')}.json"))
 
 
 def load_party_from_folder(folder_path: Path) -> List[Character]:
