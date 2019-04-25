@@ -58,7 +58,9 @@ class Character:
 
     @property
     def armor_class(self):
-        return self.armor.get_armor_class(self.get_ability_modifier(Ability.DEXTERITY), self.using_shield)
+        if self.armor is not None:
+            return self.armor.get_armor_class(self.get_ability_modifier(Ability.DEXTERITY), self.using_shield)
+        return 10 + self.get_ability_modifier(Ability.DEXTERITY)
 
     @property
     def category(self) -> CharacterCategory:
