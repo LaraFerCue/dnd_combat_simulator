@@ -29,7 +29,7 @@ class Die:
     def __le__(self, other):
         return self.__lt__(other) or self.__eq__(other)
 
-    def roll(self):
+    def roll(self) -> int:
         return round(uniform(1, self._sides))
 
 
