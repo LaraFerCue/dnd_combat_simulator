@@ -103,22 +103,22 @@ class Weapon:
 
     @staticmethod
     def simple_melee(**kwargs):
-        return Weapon.__create_weapon(WeaponType.SIMPLE_MELEE, **kwargs)
+        return Weapon.create_weapon(WeaponType.SIMPLE_MELEE, **kwargs)
 
     @staticmethod
     def simple_ranged(**kwargs):
-        return Weapon.__create_weapon(WeaponType.SIMPLE_RANGED, **kwargs)
+        return Weapon.create_weapon(WeaponType.SIMPLE_RANGED, **kwargs)
 
     @staticmethod
     def martial_melee(**kwargs):
-        return Weapon.__create_weapon(WeaponType.MARTIAL_MELEE, **kwargs)
+        return Weapon.create_weapon(WeaponType.MARTIAL_MELEE, **kwargs)
 
     @staticmethod
     def martial_ranged(**kwargs):
-        return Weapon.__create_weapon(WeaponType.MARTIAL_RANGED, **kwargs)
+        return Weapon.create_weapon(WeaponType.MARTIAL_RANGED, **kwargs)
 
     @staticmethod
-    def __create_weapon(weapon_type: WeaponType, **kwargs):
+    def create_weapon(weapon_type: WeaponType, **kwargs):
         if 'versatile' in kwargs:
             versatile = Damage(kwargs['versatile'], kwargs['damage_type'])
             kwargs['versatile'] = versatile
