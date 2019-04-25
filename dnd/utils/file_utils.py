@@ -3,6 +3,7 @@ from enum import Enum
 from pathlib import Path
 from typing import List, Dict, Tuple, Union
 
+from dnd.models.armor import Armor, ArmorType
 from dnd.models.damage import DamageType
 from dnd.models.die import Die, DICE
 from dnd.models.weapon import WeaponType, Weapon
@@ -28,6 +29,18 @@ def create_weapon_from_json(json_file_path: Path) -> Weapon:
     properties = get_properties_from_dictionary(json_dict)
     return Weapon.create_weapon(weapon_type=weapon_type, die_list=die_list,
                                 damage_type=damage_type, **properties)
+
+
+def create_armor_from_json(json_file_path: Path) -> Armor:
+    with open(json_file_path.as_posix()) as json_file:
+        json_dict = json.load(json_file)
+
+    return Armor(armor_class=json_dict['armor_class'],
+                 armor_type=ArmorType(json_dict['armor_type']))
+
+
+def load_armor_by_name(armor_name: str):
+    return create_armor_from_json(INVENTORY_PATH.joinpath('armors', f"{armor_name}.json"))
 
 
 def load_weapon_by_name(weapon_name: str):
