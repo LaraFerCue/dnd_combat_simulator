@@ -65,7 +65,7 @@ def test_character_attack():
     character = Character.new(**DUMMY_CHARACTER)
     character.active_weapon = DUMMY_PLAYER_WEAPON
 
-    assert character.attack() == 4
+    assert character.damage() == 4
 
 
 def test_character_attack_versatile_weapon():
@@ -73,7 +73,7 @@ def test_character_attack_versatile_weapon():
     weapon = Weapon.simple_melee(die_list=[MockingDie(4)], damage_type=DamageType.PIERCING, versatile=[MockingDie(6)])
     character.active_weapon = weapon
 
-    assert character.attack() == 6
+    assert character.damage() == 6
 
     character.using_shield = True
-    assert character.attack() == 4
+    assert character.damage() == 4

@@ -92,7 +92,7 @@ class Character:
 
         self.__health_points -= damage
 
-    def attack(self) -> int:
+    def damage(self) -> int:
         return self.active_weapon.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
                                              dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
                                              use_two_handed=not self.using_shield)
