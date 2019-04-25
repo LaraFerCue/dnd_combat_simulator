@@ -14,12 +14,19 @@ class Ability(Enum):
     CONSTITUTION = 'constitution'
     INTELLIGENCE = 'intelligence'
     WISDOM = 'wisdom'
-    CHARISMA = 'charismas'
+    CHARISMA = 'charisma'
+
+
+class CharacterCategory(Enum):
+    INDIFFERENT = "indifferent"
+    PLAYABLE = "Playable"
+    NON_PLAYABLE = "Non-playable"
 
 
 class Character:
     def __init__(self, strength: int, dexterity: int, constitution: int,
-                 intelligence: int, wisdom: int, charisma: int, hit_points: int):
+                 intelligence: int, wisdom: int, charisma: int, hit_points: int,
+                 category: CharacterCategory = CharacterCategory.INDIFFERENT):
         Character.check_ability(strength, Ability.STRENGTH)
         Character.check_ability(dexterity, Ability.DEXTERITY)
         Character.check_ability(constitution, Ability.CONSTITUTION)
@@ -39,9 +46,15 @@ class Character:
         self.armor: Armor = None
         self.weapons: List[Weapon] = []
         self.active_weapon: Weapon = None
+        self.using_shield: bool = False
         self.spell_list: List[Spell] = []
         self.feat_list: List[Feat] = []
         self.__health_points: int = hit_points
+        self.__category = category
+
+    @property
+    def category(self) -> CharacterCategory:
+        return self.__category
 
     @property
     def proficiency(self) -> int:
@@ -63,6 +76,10 @@ class Character:
         mod = int(ability / 2) - 5
         return mod
 
+    @staticmethod
+    def new(**kwargs):
+        return Character(**kwargs)
+
     @property
     def hit_points(self):
         return self.__health_points
@@ -74,3 +91,11 @@ class Character:
                 damage = resistance.modify_damage(damage, damage_type)
 
         self.__health_points -= damage
+
+    def attack(self) -> int:
+        return self.active_weapon.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
+                                             dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
+                                             use_two_handed=not self.using_shield)
+
+    def get_ability_modifier(self, ability: Ability):
+        return Character.get_modifier(self.abilities[ability])
