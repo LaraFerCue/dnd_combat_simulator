@@ -41,6 +41,10 @@ class Weapon:
         return self.__weapon_type == WeaponType.SIMPLE_RANGED or self.__weapon_type == WeaponType.MARTIAL_RANGED
 
     @property
+    def damage(self) -> Damage:
+        return self.__damage
+
+    @property
     def ammo(self):
         return self.__ammo
 
