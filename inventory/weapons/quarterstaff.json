@@ -1,0 +1,15 @@
+{
+  "weapon_type": "Simple Melee",
+  "die_list": [
+    "D6"
+  ],
+  "damage_type": "Bludgeoning",
+  "properties": {
+    "versatile": {
+      "type": "Die List",
+      "value": [
+        "D8"
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "weapon_type": "Simple Melee",
+  "die_list": [
+    "D4"
+  ],
+  "damage_type": "Slashing",
+  "properties": {
+    "light": {
+      "type": "bool",
+      "value": true
+    }
+  }
+}

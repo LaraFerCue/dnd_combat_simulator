@@ -1,0 +1,13 @@
+{
+  "weapon_type": "Simple Melee",
+  "die_list": [
+    "D8"
+  ],
+  "damage_type": "Bludgeoning",
+  "properties": {
+    "two_handed": {
+      "type": "bool",
+      "value": true
+    }
+  }
+}
