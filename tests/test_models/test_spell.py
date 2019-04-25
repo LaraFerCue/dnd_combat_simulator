@@ -7,7 +7,6 @@ from dnd.models.spell import Spell, SpellWornOut
 
 def test_spell():
     spell = Spell(Damage([D10], DamageType.MAGIC_ACID))
-    spell.slots = 1000000
 
     for _ in range(0, 5000):
         assert spell.get_damage() in range(1, 11)
