@@ -37,6 +37,10 @@ class Weapon:
             raise ValueError('Versatile needs a Damage value')
 
     @property
+    def is_ranged(self) -> bool:
+        return self.__weapon_type == WeaponType.SIMPLE_RANGED or self.__weapon_type == WeaponType.MARTIAL_RANGED
+
+    @property
     def ammo(self):
         return self.__ammo
 
@@ -60,6 +64,9 @@ class Weapon:
         if WeaponProperty.VERSATILE in self.__properties and use_two_handed:
             return self.__properties[WeaponProperty.VERSATILE].get_damage() + attack_mod
         return self.__damage.get_damage() + attack_mod
+
+    def check_property(self, weapon_property: WeaponProperty):
+        return weapon_property in self.__properties
 
     def __hash__(self):
         calculated_hash: int = 0

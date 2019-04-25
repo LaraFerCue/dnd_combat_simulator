@@ -4,8 +4,8 @@ from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, Ability
 from dnd.models.damage import DamageType
 from dnd.models.feat import Resistance
-from dnd.models.weapon import Weapon
-from tests.mocking_models.dummies import DUMMY_CHARACTER, DUMMY_PLAYER_WEAPON
+from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
+from tests.mocking_models.dummies import DUMMY_CHARACTER, DUMMY_PLAYER_WEAPON, DUMMY_DAMAGE_D6
 from tests.mocking_models.mocking_die import MockingDie
 
 
@@ -63,6 +63,23 @@ def test_character_apply_damage_with_resistance():
 
 
 def test_character_attack():
+    character = Character(strength=8, dexterity=12, constitution=10, intelligence=10, wisdom=10, charisma=10,
+                          hit_points=10)
+    character.active_weapon = Weapon(damage=DUMMY_DAMAGE_D6, weapon_type=WeaponType.MARTIAL_RANGED,
+                                     properties={WeaponProperty.AMMUNITION: (30, 120)})
+    character.active_weapon.ammo = 120
+
+    assert character.attack(MockingDie(12)) == 15
+
+    character.active_weapon = Weapon(damage=DUMMY_DAMAGE_D6, weapon_type=WeaponType.MARTIAL_MELEE)
+    assert character.attack(MockingDie(12)) == 13
+
+    character.active_weapon = Weapon(damage=DUMMY_DAMAGE_D6, weapon_type=WeaponType.MARTIAL_MELEE,
+                                     properties={WeaponProperty.FINESSE: True})
+    assert character.attack(MockingDie(12)) == 15
+
+
+def test_character_damage():
     character = Character.new(**DUMMY_CHARACTER)
     character.active_weapon = DUMMY_PLAYER_WEAPON
 

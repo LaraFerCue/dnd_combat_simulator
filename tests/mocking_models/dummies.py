@@ -1,4 +1,4 @@
-from dnd.models.damage import DamageType
+from dnd.models.damage import DamageType, Damage
 from dnd.models.weapon import Weapon
 from tests.mocking_models.mocking_die import MockingDie
 
@@ -7,3 +7,4 @@ DUMMY_CHARACTER = {'strength': 10, 'dexterity': 10, 'constitution': 10, 'intelli
                    'hit_points': 10}
 DUMMY_PLAYER_WEAPON = Weapon.simple_melee(die_list=[MockingDie(4)], damage_type=DamageType.PIERCING)
 DUMMY_ENEMY_WEAPON = Weapon.simple_melee(die_list=[MockingDie(1)], damage_type=DamageType.PIERCING)
+DUMMY_DAMAGE_D6 = Damage([MockingDie(6)], DamageType.PIERCING)
