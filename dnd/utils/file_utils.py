@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Union
 
 from dnd.models.armor import Armor, ArmorType
+from dnd.models.character import Character
 from dnd.models.damage import DamageType
 from dnd.models.die import Die, DICE
 from dnd.models.weapon import WeaponType, Weapon
@@ -18,33 +19,40 @@ class JsonValueType(Enum):
 INVENTORY_PATH: Path = Path('inventory')
 
 
-def create_weapon_from_json(json_file_path: Path) -> Weapon:
+def create_weapon_from_json_file(json_file_path: Path) -> Weapon:
     with open(json_file_path.as_posix()) as json_file:
         json_dict = json.load(json_file)
 
+    return create_weapon_from_dictionary(json_dict)
+
+
+def create_weapon_from_dictionary(json_dict: Dict) -> Weapon:
     die_list = get_die_list(json_dict["die_list"])
     damage_type: DamageType = DamageType(json_dict['damage_type'])
     weapon_type: WeaponType = WeaponType(json_dict['weapon_type'])
-
     properties = get_properties_from_dictionary(json_dict)
     return Weapon.create_weapon(weapon_type=weapon_type, die_list=die_list,
                                 damage_type=damage_type, **properties)
 
 
-def create_armor_from_json(json_file_path: Path) -> Armor:
+def create_armor_from_json_file(json_file_path: Path) -> Armor:
     with open(json_file_path.as_posix()) as json_file:
         json_dict = json.load(json_file)
 
+    return create_armor_from_dictionary(json_dict)
+
+
+def create_armor_from_dictionary(json_dict: Dict) -> Armor:
     return Armor(armor_class=json_dict['armor_class'],
                  armor_type=ArmorType(json_dict['armor_type']))
 
 
 def load_armor_by_name(armor_name: str):
-    return create_armor_from_json(INVENTORY_PATH.joinpath('armors', f"{armor_name}.json"))
+    return create_armor_from_json_file(INVENTORY_PATH.joinpath('armors', f"{armor_name}.json"))
 
 
 def load_weapon_by_name(weapon_name: str):
-    return create_weapon_from_json(INVENTORY_PATH.joinpath('weapons', f"{weapon_name}.json"))
+    return create_weapon_from_json_file(INVENTORY_PATH.joinpath('weapons', f"{weapon_name}.json"))
 
 
 def get_die_list(string_list: List[str]) -> List[Die]:
