@@ -2,8 +2,9 @@ import pytest
 
 from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, Ability
-from dnd.models.damage import DamageType
+from dnd.models.damage import DamageType, Damage
 from dnd.models.feat import Resistance
+from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 from tests.mocking_models.dummies import DUMMY_CHARACTER, DUMMY_PLAYER_WEAPON, DUMMY_DAMAGE_D6
 from tests.mocking_models.mocking_die import MockingDie
@@ -106,3 +107,16 @@ def test_character_armor_class():
     assert character.armor_class == 11
     character.using_shield = True
     assert character.armor_class == 13
+
+
+def test_spell_caster_character():
+    character = Character.new(**DUMMY_CHARACTER)
+    magic_arrow = Spell(Damage([MockingDie(6)], DamageType.MAGIC_COLD), spell_lvl=1)
+    magic_arrow.slots = 2
+    character.spell_list = [magic_arrow, Spell(Damage([MockingDie(4)], DamageType.MAGIC_COLD))]
+
+    assert character.damage() == 6
+    assert character.damage() == 6
+    assert character.damage() == 4
+    assert character.damage() == 4
+    assert character.damage() == 4

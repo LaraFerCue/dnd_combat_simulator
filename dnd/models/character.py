@@ -5,6 +5,7 @@ from dnd.models.armor import Armor
 from dnd.models.damage import DamageType
 from dnd.models.die import D20, Die
 from dnd.models.feat import Feat, FeatType, Resistance
+from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponProperty
 
 
@@ -46,7 +47,6 @@ class Character:
             Ability.CHARISMA: charisma
         }
         self.__proficiency: int = 2
-        self.cast_ability: Ability = Ability.NONE
 
         self.armor: Armor = None
         self.weapons: List[Weapon] = []
@@ -54,6 +54,9 @@ class Character:
         self.using_shield: bool = False
 
         self.feat_list: List[Feat] = []
+
+        self.cast_ability: Ability = Ability.NONE
+        self.spell_list: List[Spell] = []
 
         self.__health_points: int = hit_points
         self.__category = category
@@ -109,6 +112,11 @@ class Character:
         self.__health_points -= damage
 
     def damage(self) -> int:
+        for spell in self.spell_list:
+            if spell.level > 0 and spell.times_used < spell.slots:
+                return spell.get_damage()
+            elif spell.level == 0:
+                return spell.get_damage()
         return self.active_weapon.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
                                              dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
                                              use_two_handed=not self.using_shield)
