@@ -15,6 +15,9 @@ class Armor:
     def __hash__(self):
         return self.__armor_class + hash(self.__type.value)
 
+    def __repr__(self):
+        return f"{self.__armor_class} | {self.__type.value}"
+
     def __eq__(self, other: 'Armor'):
         return self.__hash__() == other.__hash__()
 

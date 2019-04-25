@@ -18,6 +18,9 @@ class Ability(Enum):
     WISDOM = 'wisdom'
     CHARISMA = 'charisma'
 
+    def __repr__(self):
+        return self.value
+
 
 class CharacterCategory(Enum):
     INDIFFERENT = "indifferent"
@@ -60,6 +63,62 @@ class Character:
 
         self.__health_points: int = hit_points
         self.__category = category
+
+    def __repr__(self) -> str:
+        dictionary = {
+            'name': self.__name,
+            **self.abilities,
+            'proficiency': self.__proficiency,
+            'armor': str(self.armor),
+            'weapons': str(self.weapons),
+            'active_weapon': str(self.active_weapon),
+            'using_shield': str(self.using_shield),
+            'feats': str(self.feat_list),
+            'hit_points': str(self.__health_points),
+            'category': self.category.value
+        }
+        return str(dictionary)
+
+    def __hash__(self) -> int:
+        calculated_hash: int = 0
+        for _, value in self.abilities.items():
+            calculated_hash += value
+        calculated_hash += hash(self.__name)
+        calculated_hash += self.__proficiency
+        calculated_hash + hash(self.armor)
+
+        for item in self.weapons:
+            calculated_hash += hash(item)
+        calculated_hash += hash(self.active_weapon)
+        calculated_hash += hash(self.using_shield)
+
+        for item in self.feat_list:
+            calculated_hash += hash(item.feat_type)
+        calculated_hash += hash(self.cast_ability.value)
+
+        for item in self.spell_list:
+            calculated_hash += hash(item)
+        calculated_hash += self.__health_points
+        calculated_hash += hash(self.__category.value)
+        return calculated_hash
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __gt__(self, other):
+        return hash(self) > hash(other)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __lt__(self, other):
+        return not self > other and not self == other
+
+    def __ge__(self, other):
+        return not self < other
+
+    def __le__(self, other):
+        return not self > other
 
     @property
     def name(self) -> str:
