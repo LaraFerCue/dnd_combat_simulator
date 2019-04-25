@@ -1,0 +1,43 @@
+{
+  "name": "player 1",
+  "abilities": {
+    "strength": 10,
+    "dexterity": 10,
+    "constitution": 10,
+    "intelligence": 10,
+    "wisdom": 10,
+    "charisma": 10
+  },
+  "hit_points": 10,
+  "category": "Playable",
+  "weapon": {
+    "weapon_type": "Simple Melee",
+    "die_list": [
+      "D6"
+    ],
+    "damage_type": "Piercing",
+    "properties": {
+      "finesse": {
+        "type": "bool",
+        "value": true
+      },
+      "thrown": {
+        "type": "Tuple",
+        "value": [
+          20,
+          60
+        ]
+      },
+      "versatile": {
+        "type": "Die List",
+        "value": [
+          "D8"
+        ]
+      }
+    }
+  },
+  "armor": {
+    "armor_class": 13,
+    "armor_type": "Light"
+  }
+}

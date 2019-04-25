@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Union
 
 from dnd.models.armor import Armor, ArmorType
-from dnd.models.character import Character
+from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import DamageType
 from dnd.models.die import Die, DICE
 from dnd.models.weapon import WeaponType, Weapon
@@ -45,6 +45,41 @@ def create_armor_from_json_file(json_file_path: Path) -> Armor:
 def create_armor_from_dictionary(json_dict: Dict) -> Armor:
     return Armor(armor_class=json_dict['armor_class'],
                  armor_type=ArmorType(json_dict['armor_type']))
+
+
+def create_character_from_json(json_file_path: Path) -> Character:
+    with open(json_file_path.as_posix()) as json_file:
+        json_dict = json.load(json_file)
+    character = create_character_from_dictionary(json_dict)
+
+    if 'weapon' in json_dict:
+        if isinstance(json_dict['weapon'], str):
+            character.active_weapon = load_weapon_by_name(json_dict['weapon'])
+        else:
+            character.active_weapon = create_weapon_from_dictionary(json_dict['weapon'])
+
+    if 'armor' in json_dict:
+        if isinstance(json_dict['armor'], str):
+            character.armor = load_armor_by_name(json_dict['armor'])
+        else:
+            character.armor = create_armor_from_dictionary(json_dict['armor'])
+    return character
+
+
+def create_character_from_dictionary(json_dict: Dict) -> Character:
+    name: str = ''
+    if 'name' in json_dict:
+        name = json_dict['name']
+    category: CharacterCategory = CharacterCategory.INDIFFERENT
+    if 'category' in json_dict:
+        category = CharacterCategory(json_dict['category'])
+    parameters = {
+        'hit_points': json_dict['hit_points'],
+        'category': category,
+        'name': name,
+        **json_dict['abilities']
+    }
+    return Character(**parameters)
 
 
 def load_armor_by_name(armor_name: str):

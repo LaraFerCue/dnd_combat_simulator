@@ -3,12 +3,14 @@ from pathlib import Path
 import pytest
 
 from dnd.models.armor import Armor, ArmorType
+from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import Damage, DamageType
 from dnd.models.die import D6, D8
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 from dnd.utils import file_utils
 from dnd.utils.file_utils import create_weapon_from_json_file, load_weapon_by_name, create_armor_from_json_file, \
-    load_armor_by_name
+    load_armor_by_name, create_character_from_json
+from tests.mocking_models.dummies import DUMMY_CHARACTER
 
 file_utils.INVENTORY_PATH = Path('tests').joinpath('resources')
 
@@ -42,3 +44,15 @@ def test_load_weapon_by_name():
 
     with pytest.raises(OSError):
         load_weapon_by_name('no_weapon')
+
+
+def test_create_character_from_json_file():
+    named_character = create_character_from_json(Path('tests').joinpath('resources', 'character_named_items.json'))
+    json_character = create_character_from_json(Path('tests').joinpath('resources', 'character_json_items.json'))
+
+    result = Character(**DUMMY_CHARACTER, name='player 1', category=CharacterCategory.PLAYABLE)
+    result.active_weapon = load_weapon_by_name('weapon')
+    result.armor = load_armor_by_name('armor')
+
+    assert named_character == result
+    assert json_character == result
