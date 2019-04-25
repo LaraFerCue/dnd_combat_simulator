@@ -61,6 +61,8 @@ class Combat:
                 target = self.get_enemy_target()
             else:
                 raise AttributeError(f"No implemented behavior for character category {character.category.value}")
+            if target is None:
+                return
             if character.attack(self.__die) >= target.armor_class:
                 target.apply_damage(character.damage(), character.active_weapon.damage.damage_type)
             character = self.__initiative_tracker.get_next_character()
