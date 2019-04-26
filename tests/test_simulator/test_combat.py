@@ -196,3 +196,10 @@ def test_critical_roll_with_spells():
 
     assert Combat.get_spell_damage(character, False) == (10, DamageType.MAGIC_COLD)
     assert Combat.get_spell_damage(character, True) == (20, DamageType.MAGIC_COLD)
+
+
+def test_get_target_on_critical_miss():
+    character1 = Character(**DUMMY_CHARACTER, name="player 1")
+    character2 = Character(**DUMMY_CHARACTER, name="player 2")
+
+    assert Combat.get_target_on_critical_miss(character1, [character1, character2]) == character2
