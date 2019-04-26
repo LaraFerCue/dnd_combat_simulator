@@ -33,11 +33,11 @@ def test_character_get_modifier():
 
 
 def test_character_default_proficiency_value():
-    assert Character.new(**DUMMY_CHARACTER).proficiency == 2
+    assert Character(**DUMMY_CHARACTER).proficiency == 2
 
 
 def test_character_set_proficiency_value():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
     character.proficiency = 3
 
     assert character.proficiency == 3
@@ -47,14 +47,14 @@ def test_character_set_proficiency_value():
 
 
 def test_character_apply_damage():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
     character.apply_damage(5, DamageType.MAGIC_ACID)
 
     assert character.hit_points == 5
 
 
 def test_character_apply_damage_with_resistance():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
     character.feat_list.append(Resistance(DamageType.PIERCING))
 
     character.apply_damage(4, DamageType.PIERCING)
@@ -81,14 +81,14 @@ def test_character_attack():
 
 
 def test_character_damage():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
     character.active_weapon = DUMMY_PLAYER_WEAPON
 
     assert character.damage() == 4
 
 
 def test_character_attack_versatile_weapon():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
     weapon = Weapon.simple_melee(die_list=[MockingDie(4)], damage_type=DamageType.PIERCING, versatile=[MockingDie(6)])
     character.active_weapon = weapon
 
@@ -99,7 +99,7 @@ def test_character_attack_versatile_weapon():
 
 
 def test_character_armor_class():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
 
     assert character.armor_class == 10
     character.armor = Armor(11, ArmorType.LIGHT)
@@ -110,13 +110,19 @@ def test_character_armor_class():
 
 
 def test_spell_caster_character():
-    character = Character.new(**DUMMY_CHARACTER)
+    character = Character(**DUMMY_CHARACTER)
+    character.cast_ability = Ability.CHARISMA
     magic_arrow = Spell(Damage([MockingDie(6)], DamageType.MAGIC_COLD), spell_lvl=1)
     magic_arrow.slots = 2
     character.spell_list = [magic_arrow, Spell(Damage([MockingDie(4)], DamageType.MAGIC_COLD))]
 
+    character.cast(MockingDie(15))
     assert character.damage() == 6
+    character.cast(MockingDie(15))
     assert character.damage() == 6
+    character.cast(MockingDie(15))
     assert character.damage() == 4
+    character.cast(MockingDie(15))
     assert character.damage() == 4
+    character.cast(MockingDie(15))
     assert character.damage() == 4

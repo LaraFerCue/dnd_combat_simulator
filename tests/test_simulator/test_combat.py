@@ -3,6 +3,8 @@ from typing import List
 from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import Damage, DamageType
+from dnd.models.die import D10
+from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType
 from dnd.simulator.combat import Combat
 from tests.mocking_models.dummies import DUMMY_PLAYER_WEAPON, DUMMY_ENEMY_WEAPON, DUMMY_CHARACTER
@@ -17,7 +19,7 @@ def dummy_lose_checker(characters: List[Character]) -> bool:
 
 
 def test_get_player_target_single_player():
-    player1 = Character.new(**DUMMY_CHARACTER)
+    player1 = Character(**DUMMY_CHARACTER)
     player1.armor = Armor(11, ArmorType.LIGHT)
 
     combat = Combat(players=[player1], enemies=[], lose_checker=dummy_lose_checker)
@@ -25,8 +27,8 @@ def test_get_player_target_single_player():
 
 
 def test_get_player_target_multiple_player():
-    player1 = Character.new(**DUMMY_CHARACTER)
-    player2 = Character.new(**DUMMY_CHARACTER)
+    player1 = Character(**DUMMY_CHARACTER)
+    player2 = Character(**DUMMY_CHARACTER)
     player1.armor = Armor(11, ArmorType.LIGHT)
     player2.armor = Armor(14, ArmorType.LIGHT)
 
@@ -35,7 +37,7 @@ def test_get_player_target_multiple_player():
 
 
 def test_get_enemy_target_single_enemy():
-    enemy1 = Character.new(**DUMMY_CHARACTER)
+    enemy1 = Character(**DUMMY_CHARACTER)
     enemy1.armor = Armor(11, ArmorType.LIGHT)
 
     combat = Combat(enemies=[enemy1], players=[], lose_checker=dummy_lose_checker)
@@ -43,8 +45,8 @@ def test_get_enemy_target_single_enemy():
 
 
 def test_get_enemy_target_multiple_enemies():
-    enemy1 = Character.new(**DUMMY_CHARACTER)
-    enemy2 = Character.new(**DUMMY_CHARACTER)
+    enemy1 = Character(**DUMMY_CHARACTER)
+    enemy2 = Character(**DUMMY_CHARACTER)
     enemy1.armor = Armor(11, ArmorType.LIGHT)
     enemy2.armor = Armor(14, ArmorType.LIGHT)
 
@@ -158,3 +160,10 @@ def test_get_statistics_huge_combat():
     assert combat.get_statistics() == {'enemies': {'beast': 18},
                                        'players': {'player 1': -8, 'player 2': 6, 'player 3': 6},
                                        'turns': 4}
+
+
+def test_get_action_to_perform_no_spells():
+    spell1 = Spell(Damage([D10], DamageType.MAGIC_COLD), spell_lvl=2)
+    spell1.slots = 1
+    character = Character(**DUMMY_CHARACTER)
+    character.spell_list.append(spell1)

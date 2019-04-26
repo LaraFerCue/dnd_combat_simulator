@@ -60,6 +60,7 @@ class Character:
 
         self.cast_ability: Ability = Ability.NONE
         self.spell_list: List[Spell] = []
+        self.__casted_spell: Spell = None
 
         self.__health_points: int = hit_points
         self.__category = category
@@ -154,10 +155,6 @@ class Character:
         mod = int(ability / 2) - 5
         return mod
 
-    @staticmethod
-    def new(**kwargs):
-        return Character(**kwargs)
-
     @property
     def hit_points(self):
         return self.__health_points
@@ -171,16 +168,22 @@ class Character:
         self.__health_points -= damage
 
     def damage(self) -> int:
-        for spell in self.spell_list:
-            if spell.level > 0 and spell.times_used < spell.slots:
-                return spell.get_damage()
-            elif spell.level == 0:
-                return spell.get_damage()
+        if self.__casted_spell is not None:
+            return self.__casted_spell.get_damage()
         return self.active_weapon.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
                                              dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
                                              use_two_handed=not self.using_shield)
 
-    def attack(self, die: Die = D20):
+    def cast(self, die: Die = D20) -> int:
+        for spell in self.spell_list:
+            if spell.can_be_casted():
+                self.__casted_spell = spell
+                spell.cast()
+                return die.roll() + self.get_ability_modifier(self.cast_ability) + self.__proficiency
+        self.__casted_spell = None
+        return -1
+
+    def attack(self, die: Die = D20) -> int:
         attack_mod = self.get_ability_modifier(Ability.STRENGTH)
         if self.active_weapon.check_property(WeaponProperty.FINESSE) or self.active_weapon.is_ranged:
             attack_mod = self.get_ability_modifier(Ability.DEXTERITY)

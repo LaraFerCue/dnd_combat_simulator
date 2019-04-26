@@ -29,7 +29,9 @@ def test_high_level_spells():
     spell1 = Spell(Damage([D10], DamageType.MAGIC_COLD), spell_lvl=1)
     spell1.slots = 1
 
+    spell1.cast()
     assert spell1.get_damage() in range(1, 11)
     with pytest.raises(SpellWornOut):
+        spell1.cast()
         spell1.get_damage()
     assert spell1.times_used == 1

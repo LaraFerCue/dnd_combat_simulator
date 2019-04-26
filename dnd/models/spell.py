@@ -21,10 +21,12 @@ class Spell:
         return self.__used
 
     def get_damage(self) -> int:
+        return self.__damage.get_damage()
+
+    def cast(self):
         if self.__used >= self.slots and self.__spell_lvl > 0:
             raise SpellWornOut(f"Spell casted maximum number of times ({self.slots})")
         self.__used += 1
-        return self.__damage.get_damage()
 
     def can_be_casted(self) -> bool:
         if self.__spell_lvl == 0:
