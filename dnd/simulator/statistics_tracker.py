@@ -27,3 +27,10 @@ class StatisticsTracker:
                 body += f"{enemy_hit_points};"
             body += '\n'
         return header + body
+
+    def get_win_percentage(self) -> float:
+        won_tracks = 0
+        for track in self.__tracker:
+            if track['result'] == Combat.Result.WIN:
+                won_tracks += 1
+        return won_tracks / len(self.__tracker)

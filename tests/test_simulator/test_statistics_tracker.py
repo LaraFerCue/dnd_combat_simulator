@@ -23,3 +23,13 @@ def test_statistics_tracker_several_tracks():
     with open('tests/resources/statistics_several_tracks.csv') as csv_file:
         csv_data = csv_file.read()
     assert statistics_tracker.to_csv() == csv_data
+
+
+def test_statistics_tracker_percentage():
+    statistics_tracker = StatisticsTracker()
+    statistics_tracker.add({}, Combat.Result.WIN)
+    statistics_tracker.add({}, Combat.Result.WIN)
+    statistics_tracker.add({}, Combat.Result.WIN)
+    statistics_tracker.add({}, Combat.Result.LOSE)
+
+    assert statistics_tracker.get_win_percentage() == 0.75
