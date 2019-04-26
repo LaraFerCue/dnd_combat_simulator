@@ -1,0 +1,14 @@
+[
+  {
+    "feat_type": "Resistance",
+    "damage_type": "Piercing"
+  },
+  {
+    "feat_type": "Resistance",
+    "damage_type": "Bludgeoning"
+  },
+  {
+    "feat_type": "Vulnerability",
+    "damage_type": "Cold"
+  }
+]

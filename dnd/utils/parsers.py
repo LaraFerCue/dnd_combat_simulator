@@ -4,6 +4,7 @@ from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import DamageType, Damage
 from dnd.models.die import Die, DICE
+from dnd.models.feat import Feat
 from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType
 
@@ -50,6 +51,15 @@ def get_die_list(string_list: List[str]) -> List[Die]:
     for local_die in string_list:
         local_die_list.append(DICE[local_die])
     return local_die_list
+
+
+def get_feat_list(dictionary_list: List[Dict[str, str]]) -> List[Feat]:
+    list_of_feats: List[Feat] = []
+    for feat in dictionary_list:
+        feat_type = feat['feat_type']
+        del feat['feat_type']
+        list_of_feats.append(Feat.get_feat_by_name(feat_type, **feat))
+    return list_of_feats
 
 
 def get_properties_from_dictionary(json_dict):

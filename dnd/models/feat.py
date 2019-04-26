@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Union
 
 from dnd.models.damage import DamageType
 
@@ -50,8 +51,10 @@ class Feat:
 
 
 class Resistance(Feat):
-    def __init__(self, damage_type: DamageType):
+    def __init__(self, damage_type: Union[DamageType, str]):
         super().__init__("Resistance", FeatType.RESISTANCE)
+        if isinstance(damage_type, str):
+            damage_type = DamageType(damage_type)
         self.__damage_type = damage_type
 
     def __hash__(self):
@@ -74,8 +77,10 @@ class Resistance(Feat):
 
 
 class Vulnerability(Feat):
-    def __init__(self, damage_type: DamageType):
+    def __init__(self, damage_type: Union[str, DamageType]):
         super().__init__("Vulnerability", FeatType.RESISTANCE)
+        if isinstance(damage_type, str):
+            damage_type = DamageType(damage_type)
         self.__damage_type = damage_type
 
     def __hash__(self):
