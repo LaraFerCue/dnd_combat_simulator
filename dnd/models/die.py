@@ -34,6 +34,7 @@ class Die:
         return round(uniform(1, self._sides))
 
 
+D1 = Die(1)
 D4 = Die(4)
 D6 = Die(6)
 D8 = Die(8)
@@ -42,6 +43,7 @@ D12 = Die(12)
 D20 = Die(20)
 
 DICE: Dict[str, Die] = {
+    'D1': D1,
     'D4': D4,
     'D6': D6,
     'D8': D8,
