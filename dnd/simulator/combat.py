@@ -25,9 +25,9 @@ class Combat:
         armor_class = 0
         target = None
         for player in self.__players:
-            if player.armor_class > armor_class:
+            if player.armor_class + player.hit_points > armor_class:
                 target = player
-                armor_class = player.armor_class
+                armor_class = player.armor_class + player.hit_points
         return target
 
     def get_enemy_target(self) -> Character:

@@ -155,6 +155,6 @@ def test_get_statistics_huge_combat():
                     die=MockingDie(10))
 
     combat.initiate_combat()
-    assert combat.get_statistics() == {'enemies': [{'beast': 54}],
-                                       'players': [{'player 1': -8}, {'player 2': 20}, {'player 3': 20}],
-                                       'turns': 2}
+    assert combat.get_statistics() == {'enemies': [{'beast': 18}],
+                                       'players': [{'player 1': -8}, {'player 2': 6}, {'player 3': 6}],
+                                       'turns': 4}
