@@ -36,8 +36,6 @@ class DamageType(Enum):
 
 class Damage:
     def __init__(self, dice_list: List[Die], damage_type: DamageType):
-        if len(dice_list) == 0:
-            raise ValueError(f"The dice list cannot be empty")
         self.__dice_list = dice_list
         self.__damage_type = damage_type
 

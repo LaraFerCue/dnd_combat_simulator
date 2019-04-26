@@ -1,5 +1,3 @@
-import pytest
-
 from dnd.models.damage import Damage, DamageType
 from dnd.models.die import D10, D6, D4
 
@@ -19,8 +17,8 @@ def test_damage_multiple_dice():
 
 
 def test_damage_without_die():
-    with pytest.raises(ValueError):
-        Damage([], DamageType.BLUDGEONING)
+    damage = Damage([], DamageType.BLUDGEONING)
+    assert damage.get_damage() == 0
 
 
 def test_two_equal_damage_classes():
