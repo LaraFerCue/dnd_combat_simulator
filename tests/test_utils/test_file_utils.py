@@ -6,6 +6,7 @@ from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import Damage, DamageType
 from dnd.models.die import D6, D8, D10
+from dnd.models.feat import Resistance, Vulnerability
 from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 from dnd.utils import file_utils
@@ -88,6 +89,18 @@ def test_load_character_with_spells():
     spell3.slots = 1
 
     character.spell_list = [spell1, spell2, spell3]
+
+    assert loaded_character == character
+
+
+def test_load_character_with_feats():
+    loaded_character = create_character_from_json_file(
+        Path('tests').joinpath('resources', 'characters', 'character_with_feats.json'))
+    character = Character(**DUMMY_CHARACTER, name='player 1', category=CharacterCategory.PLAYABLE)
+    character.feat_list = [
+        Resistance(DamageType.PIERCING),
+        Vulnerability(DamageType.FIRE)
+    ]
 
     assert loaded_character == character
 

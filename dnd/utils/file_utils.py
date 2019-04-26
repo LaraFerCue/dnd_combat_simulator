@@ -7,7 +7,7 @@ from dnd.models.character import Character
 from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon
 from dnd.utils.parsers import create_weapon_from_dictionary, create_armor_from_dictionary, \
-    create_character_from_dictionary, create_spell_from_dictionary
+    create_character_from_dictionary, create_spell_from_dictionary, get_feat_list
 
 INVENTORY_PATH: Path = Path('inventory')
 
@@ -54,6 +54,8 @@ def create_character_from_json_file(json_file_path: Path) -> Character:
             spell = load_spell_by_name(spell_name)
             spell.slots = spell_slots
             character.spell_list.append(spell)
+    if 'feats' in json_dict:
+        character.feat_list = get_feat_list(json_dict['feats'])
     return character
 
 
