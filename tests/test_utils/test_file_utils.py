@@ -115,4 +115,4 @@ def test_load_party_from_folder():
 
 def test_load_party_from_non_existent_folder():
     with pytest.raises(OSError):
-        load_party_from_folder(Path('tests').joinpath('resources', 'enemies'))
+        load_party_from_folder(Path('tests').joinpath('resources', 'stupid_folder'))
