@@ -1,0 +1,22 @@
+[
+  {
+    "turns": 2,
+    "players": {
+      "player1": 1,
+      "player2": 2
+    },
+    "enemies": {
+      "enemy": -1
+    }
+  },
+  {
+    "turns": 4,
+    "players": {
+      "player1": 5,
+      "player2": 1
+    },
+    "enemies": {
+      "enemy": -20
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "turns": 2,
+  "players": {
+    "player1": 1,
+    "player2": 2
+  },
+  "enemies": {
+    "enemy": -1
+  }
+}

@@ -40,12 +40,12 @@ class Combat:
         return target
 
     def get_statistics(self) -> Dict:
-        statistics = {'turns': self.__turn, 'players': [], 'enemies': []}
+        statistics = {'turns': self.__turn, 'players': {}, 'enemies': {}}
 
         for player in self.__players:
-            statistics['players'].append({player.name: player.hit_points})
+            statistics['players'][player.name] = player.hit_points
         for enemy in self.__enemies:
-            statistics['enemies'].append({enemy.name: enemy.hit_points})
+            statistics['enemies'][enemy.name] = enemy.hit_points
         return statistics
 
     def initiate_combat(self) -> Result:

@@ -132,7 +132,7 @@ def test_get_statistics_basic_combat():
     combat.initiate_combat()
     statistics = combat.get_statistics()
 
-    assert statistics == {'turns': 1, 'players': [{'player': 10}], 'enemies': [{'enemy': -2}]}
+    assert statistics == {'turns': 1, 'players': {'player': 10}, 'enemies': {'enemy': -2}}
 
 
 def test_get_statistics_huge_combat():
@@ -155,6 +155,6 @@ def test_get_statistics_huge_combat():
                     die=MockingDie(10))
 
     combat.initiate_combat()
-    assert combat.get_statistics() == {'enemies': [{'beast': 18}],
-                                       'players': [{'player 1': -8}, {'player 2': 6}, {'player 3': 6}],
+    assert combat.get_statistics() == {'enemies': {'beast': 18},
+                                       'players': {'player 1': -8, 'player 2': 6, 'player 3': 6},
                                        'turns': 4}
