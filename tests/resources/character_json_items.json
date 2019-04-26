@@ -17,23 +17,14 @@
     ],
     "damage_type": "Piercing",
     "properties": {
-      "finesse": {
-        "type": "bool",
-        "value": true
-      },
-      "thrown": {
-        "type": "Tuple",
-        "value": [
-          20,
-          60
-        ]
-      },
-      "versatile": {
-        "type": "Die List",
-        "value": [
-          "D8"
-        ]
-      }
+      "finesse": true,
+      "thrown": [
+        20,
+        60
+      ],
+      "versatile": [
+        "D8"
+      ]
     }
   },
   "armor": {

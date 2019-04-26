@@ -5,16 +5,10 @@
   ],
   "damage_type": "Piercing",
   "properties": {
-    "ammunition": {
-      "type": "Tuple",
-      "value": [
-        80,
-        320
-      ]
-    },
-    "loading": {
-      "type": "bool",
-      "value": true
-    }
+    "ammunition": [
+      80,
+      320
+    ],
+    "loading": true
   }
 }

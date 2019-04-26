@@ -5,16 +5,10 @@
   ],
   "damage_type": "Piercing",
   "properties": {
-    "thrown": {
-      "type": "Tuple",
-      "value": [
-        20,
-        60
-      ]
-    },
-    "finesse": {
-      "type": "bool",
-      "value": true
-    }
+    "thrown": [
+      20,
+      60
+    ],
+    "finesse": true
   }
 }

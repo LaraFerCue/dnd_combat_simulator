@@ -5,12 +5,9 @@
   ],
   "damage_type": "Piercing",
   "properties": {
-    "thrown": {
-      "type": "Tuple",
-      "value": [
-        30,
-        120
-      ]
-    }
+    "thrown": [
+      30,
+      120
+    ]
   }
 }

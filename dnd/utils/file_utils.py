@@ -1,5 +1,4 @@
 import json
-from enum import Enum
 from pathlib import Path
 from typing import List, Dict, Tuple, Union
 
@@ -10,10 +9,8 @@ from dnd.models.die import Die, DICE
 from dnd.models.weapon import WeaponType, Weapon
 
 
-class JsonValueType(Enum):
-    BOOL = 'bool'
-    TUPLE = 'Tuple'
-    DIE_LIST = 'Die List'
+class MalformedWeaponProperties(BaseException):
+    pass
 
 
 INVENTORY_PATH: Path = Path('inventory')
@@ -107,12 +104,24 @@ def get_die_list(string_list: List[str]) -> List[Die]:
 def get_properties_from_dictionary(json_dict):
     properties: Dict[str, Union[bool, Tuple[int, int], List[Die]]] = {}
     for property_name, property_value in json_dict['properties'].items():
-        property_type = JsonValueType(property_value['type'])
-
-        if property_type == JsonValueType.BOOL:
-            properties[property_name] = property_value['value']
-        if property_type == JsonValueType.TUPLE:
-            properties[property_name] = (property_value['value'][0], property_value['value'][1])
-        if property_type == JsonValueType.DIE_LIST:
-            properties[property_name] = get_die_list(property_value['value'])
+        if isinstance(property_value, bool):
+            properties[property_name] = property_value
+        elif isinstance(property_value, list):
+            if isinstance(property_value[0], int):
+                properties[property_name] = (property_value[0], property_value[1])
+            elif isinstance(property_value[0], str):
+                properties[property_name] = get_die_list(property_value)
+            else:
+                raise MalformedWeaponProperties(
+                    f"Wrong property list: {property_name} is list of {type(property_value[0])}")
+        else:
+            raise MalformedWeaponProperties(f"Wrong property type: {property_name} is {type(property_value)}")
+            # property_type = JsonValueType(property_value['type'])
+        #
+        # if property_type == JsonValueType.BOOL:
+        #     properties[property_name] = property_value['value']
+        # if property_type == JsonValueType.TUPLE:
+        #     properties[property_name] = (property_value['value'][0], property_value['value'][1])
+        # if property_type == JsonValueType.DIE_LIST:
+        #     properties[property_name] = get_die_list(property_value['value'])
     return properties

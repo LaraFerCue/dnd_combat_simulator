@@ -5,18 +5,12 @@
   ],
   "damage_type": "Piercing",
   "properties": {
-    "thrown": {
-      "type": "Tuple",
-      "value": [
-        20,
-        60
-      ]
-    },
-    "versatile": {
-      "type": "Die List",
-      "value": [
-        "D8"
-      ]
-    }
+    "thrown": [
+      20,
+      60
+    ],
+    "versatile": [
+      "D8"
+    ]
   }
 }

@@ -5,20 +5,11 @@
   ],
   "damage_type": "Bludgeoning",
   "properties": {
-    "light": {
-      "type": "bool",
-      "value": true
-    },
-    "finesse": {
-      "type": "bool",
-      "value": true
-    },
-    "thrown": {
-      "type": "Tuple",
-      "value": [
-        20,
-        60
-      ]
-    }
+    "light": true,
+    "finesse": true,
+    "thrown": [
+      20,
+      60
+    ]
   }
 }

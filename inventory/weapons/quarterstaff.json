@@ -5,11 +5,8 @@
   ],
   "damage_type": "Bludgeoning",
   "properties": {
-    "versatile": {
-      "type": "Die List",
-      "value": [
-        "D8"
-      ]
-    }
+    "versatile": [
+      "D8"
+    ]
   }
 }
