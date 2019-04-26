@@ -13,6 +13,9 @@ class Feat:
         self.__name = name
         self.__type = feat_type
 
+    def __hash__(self):
+        return hash(self.name) + hash(self.feat_type.value)
+
     @property
     def name(self):
         return self.__name
@@ -22,20 +25,37 @@ class Feat:
         return self.__type
 
     @staticmethod
-    def from_dict(**kwargs):
-        raise NotImplementedError
-
-    @staticmethod
     def get_feat_by_name(name: str, **kwargs):
         module = getattr(getattr(__import__('dnd'), 'models'), 'feat')
         feat = getattr(module, name)
-        return feat.from_dict(**kwargs)
+        return feat(**kwargs)
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __gt__(self, other):
+        return hash(self) > hash(other)
+
+    def __lt__(self, other):
+        return hash(self) < hash(other)
+
+    def __le__(self, other):
+        return self < other or self == other
+
+    def __ge__(self, other):
+        return self > other or self == other
 
 
 class Resistance(Feat):
     def __init__(self, damage_type: DamageType):
         super().__init__("Resistance", FeatType.RESISTANCE)
         self.__damage_type = damage_type
+
+    def __hash__(self):
+        return hash(self.name) + hash(self.feat_type.value) + hash(self.damage_type.value)
 
     @property
     def damage_type(self) -> DamageType:
@@ -57,6 +77,9 @@ class Vulnerability(Feat):
     def __init__(self, damage_type: DamageType):
         super().__init__("Vulnerability", FeatType.RESISTANCE)
         self.__damage_type = damage_type
+
+    def __hash__(self):
+        return hash(self.name) + hash(self.feat_type.value) + hash(self.damage_type.value)
 
     @property
     def damage_type(self) -> DamageType:

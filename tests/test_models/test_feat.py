@@ -15,7 +15,28 @@ def test_resistance():
 
 
 def test_vulnerability():
-    resistance = Vulnerability(DamageType.PIERCING)
+    vulnerability = Vulnerability(DamageType.PIERCING)
 
-    assert resistance.modify_damage(10, DamageType.PIERCING) == 20
-    assert resistance.modify_damage(10, DamageType.MAGIC_ACID) == 10
+    assert vulnerability.modify_damage(10, DamageType.PIERCING) == 20
+    assert vulnerability.modify_damage(10, DamageType.MAGIC_ACID) == 10
+
+
+def test_equal_feats():
+    feat1 = Resistance(DamageType.PIERCING)
+    feat2 = Resistance(DamageType.PIERCING)
+
+    assert feat1 == feat2
+
+
+def test_different_feats():
+    feat1 = Resistance(DamageType.PIERCING)
+    feat2 = Resistance(DamageType.BLUDGEONING)
+    feat3 = Vulnerability(DamageType.PIERCING)
+    feat4 = Vulnerability(DamageType.BLUDGEONING)
+
+    assert feat1 != feat2
+    assert feat1 != feat3
+    assert feat1 != feat4
+    assert feat2 != feat3
+    assert feat2 != feat4
+    assert feat3 != feat4
