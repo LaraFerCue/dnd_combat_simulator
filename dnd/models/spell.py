@@ -26,6 +26,13 @@ class Spell:
         self.__used += 1
         return self.__damage.get_damage()
 
+    def can_be_casted(self) -> bool:
+        if self.__spell_lvl == 0:
+            return True
+        if self.__used < self.slots:
+            return True
+        return False
+
     def __hash__(self) -> int:
         return hash(self.__damage)
 

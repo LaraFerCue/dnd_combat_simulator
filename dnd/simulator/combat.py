@@ -12,6 +12,10 @@ class Combat:
         WIN = "win"
         LOSE = "lose"
 
+    class Action(Enum):
+        ATTACK = 0
+        CAST = 1
+
     def __init__(self, players: List[Character], enemies: List[Character],
                  lose_checker: Callable[[List[Character]], bool], die: Die = D20):
         self.__players = players
@@ -61,6 +65,13 @@ class Combat:
 
         return Combat.Result.LOSE
 
+    @staticmethod
+    def _select_spell_or_weapon(character: Character):
+        for spell in character.spell_list:
+            if spell.can_be_casted():
+                return Combat.Action.CAST
+        return Combat.Action.ATTACK
+
     def _turn_actions(self) -> None:
         character = self.__initiative_tracker.get_next_character()
         while character is not None:
@@ -72,6 +83,9 @@ class Combat:
                 raise AttributeError(f"No implemented behavior for character category {character.category.value}")
             if target is None:
                 return
-            if character.hit_points > 0 and character.attack(self.__die) >= target.armor_class:
-                target.apply_damage(character.damage(), character.active_weapon.damage.damage_type)
+            if character.hit_points > 0:
+                action = Combat._select_spell_or_weapon(character)
+
+                if action == Combat.Action.ATTACK and character.attack(self.__die) >= target.armor_class:
+                    target.apply_damage(character.damage(), character.active_weapon.damage.damage_type)
             character = self.__initiative_tracker.get_next_character()
