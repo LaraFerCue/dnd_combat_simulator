@@ -73,3 +73,4 @@ pip-selfcheck.json
 /.idea/vcs.xml
 /.idea/encodings.xml
 /dnd_combat_simulator.iml
+/data/*
