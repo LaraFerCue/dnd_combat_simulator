@@ -1,8 +1,9 @@
 import logging
 from pathlib import Path
 
-from dnd.utils.file_utils import MalformedWeaponProperties, create_weapon_from_json_file, \
+from dnd.utils.file_utils import create_weapon_from_json_file, \
     create_armor_from_json_file
+from dnd.utils.parsers import MalformedWeaponProperties
 
 log = logging.getLogger('inventory_checker')
 log.setLevel(logging.DEBUG)

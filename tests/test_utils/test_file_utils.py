@@ -9,7 +9,7 @@ from dnd.models.die import D6, D8
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 from dnd.utils import file_utils
 from dnd.utils.file_utils import create_weapon_from_json_file, load_weapon_by_name, create_armor_from_json_file, \
-    load_armor_by_name, create_character_from_json, load_party_from_folder
+    load_armor_by_name, create_character_from_json_file, load_party_from_folder
 from tests.mocking_models.dummies import DUMMY_CHARACTER
 
 file_utils.INVENTORY_PATH = Path('tests').joinpath('resources')
@@ -47,9 +47,9 @@ def test_load_weapon_by_name():
 
 
 def test_create_character_from_json_file():
-    named_character = create_character_from_json(
+    named_character = create_character_from_json_file(
         Path('tests').joinpath('resources', 'characters', 'character_named_items.json'))
-    json_character = create_character_from_json(
+    json_character = create_character_from_json_file(
         Path('tests').joinpath('resources', 'characters', 'character_json_items.json'))
 
     result = Character(**DUMMY_CHARACTER, name='player 1', category=CharacterCategory.PLAYABLE)
@@ -61,9 +61,9 @@ def test_create_character_from_json_file():
 
 
 def test_load_party_from_folder():
-    player1 = create_character_from_json(Path('tests').joinpath('resources', 'party', 'player1.json'))
-    player2 = create_character_from_json(Path('tests').joinpath('resources', 'party', 'player2.json'))
-    player3 = create_character_from_json(Path('tests').joinpath('resources', 'party', 'player3.json'))
+    player1 = create_character_from_json_file(Path('tests').joinpath('resources', 'party', 'player1.json'))
+    player2 = create_character_from_json_file(Path('tests').joinpath('resources', 'party', 'player2.json'))
+    player3 = create_character_from_json_file(Path('tests').joinpath('resources', 'party', 'player3.json'))
 
     assert set(load_party_from_folder(Path('tests').joinpath('resources', 'party'))) == {player1, player2, player3}
 
