@@ -1,7 +1,7 @@
 from typing import List
 
 from dnd.models.armor import Armor, ArmorType
-from dnd.models.character import Character, CharacterCategory
+from dnd.models.character import Character, CharacterCategory, Ability
 from dnd.models.damage import Damage, DamageType
 from dnd.models.die import D10
 from dnd.models.spell import Spell
@@ -162,8 +162,16 @@ def test_get_statistics_huge_combat():
                                        'turns': 4}
 
 
-def test_get_action_to_perform_no_spells():
+def test_get_action_to_perform_spells():
     spell1 = Spell(Damage([D10], DamageType.MAGIC_COLD), spell_lvl=2)
     spell1.slots = 1
-    character = Character(**DUMMY_CHARACTER)
+
+    character = Character(strength=10, dexterity=10, constitution=10, intelligence=10, wisdom=10, charisma=16,
+                          hit_points=20, category=CharacterCategory.INDIFFERENT, name='character')
+    character.cast_ability = Ability.CHARISMA
     character.spell_list.append(spell1)
+
+    assert Combat.select_spell_or_weapon(character) == Combat.Action.CAST
+    assert character.cast(MockingDie(10)) == 15
+    assert character.damage() in range(1, 11)
+    assert Combat.select_spell_or_weapon(character) == Combat.Action.ATTACK

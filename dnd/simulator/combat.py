@@ -66,7 +66,7 @@ class Combat:
         return Combat.Result.LOSE
 
     @staticmethod
-    def _select_spell_or_weapon(character: Character):
+    def select_spell_or_weapon(character: Character):
         for spell in character.spell_list:
             if spell.can_be_casted():
                 return Combat.Action.CAST
@@ -84,7 +84,7 @@ class Combat:
             if target is None:
                 return
             if character.hit_points > 0:
-                action = Combat._select_spell_or_weapon(character)
+                action = Combat.select_spell_or_weapon(character)
 
                 if action == Combat.Action.ATTACK and character.attack(self.__die) >= target.armor_class:
                     target.apply_damage(character.damage(), character.active_weapon.damage.damage_type)
