@@ -2,8 +2,9 @@ from typing import Dict, List, Union, Tuple
 
 from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, CharacterCategory
-from dnd.models.damage import DamageType
+from dnd.models.damage import DamageType, Damage
 from dnd.models.die import Die, DICE
+from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType
 
 
@@ -19,6 +20,13 @@ def create_weapon_from_dictionary(json_dict: Dict) -> Weapon:
 def create_armor_from_dictionary(json_dict: Dict) -> Armor:
     return Armor(armor_class=json_dict['armor_class'],
                  armor_type=ArmorType(json_dict['armor_type']))
+
+
+def create_spell_from_dictionary(json_dict: Dict) -> Spell:
+    die_list = get_die_list(json_dict['die_list'])
+    damage_type: DamageType = DamageType(json_dict['damage_type'])
+    spell_level: int = int(json_dict['level'])
+    return Spell(damage=Damage(dice_list=die_list, damage_type=damage_type), spell_lvl=spell_level)
 
 
 def create_character_from_dictionary(json_dict: Dict) -> Character:

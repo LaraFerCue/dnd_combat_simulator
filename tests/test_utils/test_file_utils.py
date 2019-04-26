@@ -5,11 +5,13 @@ import pytest
 from dnd.models.armor import Armor, ArmorType
 from dnd.models.character import Character, CharacterCategory
 from dnd.models.damage import Damage, DamageType
-from dnd.models.die import D6, D8
+from dnd.models.die import D6, D8, D10
+from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponType, WeaponProperty
 from dnd.utils import file_utils
 from dnd.utils.file_utils import create_weapon_from_json_file, load_weapon_by_name, create_armor_from_json_file, \
-    load_armor_by_name, create_character_from_json_file, load_party_from_folder
+    load_armor_by_name, create_character_from_json_file, load_party_from_folder, create_spell_from_json_file, \
+    load_spell_by_name
 from tests.mocking_models.dummies import DUMMY_CHARACTER
 
 file_utils.INVENTORY_PATH = Path('tests').joinpath('resources')
@@ -27,6 +29,19 @@ def test_create_armor_from_json_file():
     armor = create_armor_from_json_file(Path('tests').joinpath('resources', 'armors', 'armor.json'))
 
     assert armor == Armor(armor_class=13, armor_type=ArmorType.LIGHT)
+
+
+def test_create_spell_from_json_file():
+    spell = create_spell_from_json_file(Path('tests').joinpath('resources', 'spells', 'spell1.json'))
+
+    assert spell == Spell(damage=Damage([D10], DamageType.MAGIC_COLD), spell_lvl=0)
+
+
+def test_load_spell_by_name():
+    assert load_spell_by_name('spell1') == Spell(damage=Damage([D10], DamageType.MAGIC_COLD), spell_lvl=0)
+
+    with pytest.raises(OSError):
+        load_spell_by_name('no_spell')
 
 
 def test_load_armor_by_name():
