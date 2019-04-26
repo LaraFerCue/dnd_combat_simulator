@@ -1,0 +1,12 @@
+{
+  "weapon_type": "Martial Melee",
+  "die_list": [
+    "D10"
+  ],
+  "damage_type": "Piercing",
+  "properties": {
+    "two_handed": true,
+    "heavy": true,
+    "reach": true
+  }
+}

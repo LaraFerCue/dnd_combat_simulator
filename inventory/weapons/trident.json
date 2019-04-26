@@ -1,0 +1,16 @@
+{
+  "weapon_type": "Martial Melee",
+  "die_list": [
+    "D6"
+  ],
+  "damage_type": "Piercing",
+  "properties": {
+    "thrown": [
+      20,
+      60
+    ],
+    "versatile": [
+      "D8"
+    ]
+  }
+}

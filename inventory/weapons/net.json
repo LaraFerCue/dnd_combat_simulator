@@ -1,0 +1,13 @@
+{
+  "weapon_type": "Martial Ranged",
+  "die_list": [
+  ],
+  "damage_type": "Bludgeoning",
+  "properties": {
+    "special": true,
+    "thrown": [
+      5,
+      15
+    ]
+  }
+}

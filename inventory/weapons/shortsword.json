@@ -1,0 +1,11 @@
+{
+  "weapon_type": "Martial Melee",
+  "die_list": [
+    "D6"
+  ],
+  "damage_type": "Slashing",
+  "properties": {
+    "finesse": true,
+    "light": true
+  }
+}

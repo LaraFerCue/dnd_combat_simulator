@@ -1,0 +1,16 @@
+{
+  "weapon_type": "Martial Ranged",
+  "die_list": [
+    "D10"
+  ],
+  "damage_type": "Piercing",
+  "properties": {
+    "loading": true,
+    "two_handed": true,
+    "heavy": true,
+    "ammunition": [
+      100,
+      400
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "weapon_type": "Martial Melee",
+  "die_list": [
+    "D6",
+    "D6"
+  ],
+  "damage_type": "Slashing",
+  "properties": {
+    "heavy": true,
+    "two_handed": true
+  }
+}

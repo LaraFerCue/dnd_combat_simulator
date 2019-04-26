@@ -1,0 +1,12 @@
+{
+  "weapon_type": "Martial Melee",
+  "die_list": [
+    "D8"
+  ],
+  "damage_type": "Slashing",
+  "properties": {
+    "versatile": [
+      "D10"
+    ]
+  }
+}
