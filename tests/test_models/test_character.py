@@ -116,7 +116,7 @@ def test_spell_caster_character():
     magic_arrow.slots = 2
     character.spell_list = [magic_arrow, Spell(Damage([MockingDie(4)], DamageType.MAGIC_COLD))]
 
-    character.cast(MockingDie(15))
+    assert character.cast(MockingDie(15)) == 17
     assert character.damage() == 6
     character.cast(MockingDie(15))
     assert character.damage() == 6
