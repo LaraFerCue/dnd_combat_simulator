@@ -47,8 +47,10 @@ def test_load_weapon_by_name():
 
 
 def test_create_character_from_json_file():
-    named_character = create_character_from_json(Path('tests').joinpath('resources', 'character_named_items.json'))
-    json_character = create_character_from_json(Path('tests').joinpath('resources', 'character_json_items.json'))
+    named_character = create_character_from_json(
+        Path('tests').joinpath('resources', 'characters', 'character_named_items.json'))
+    json_character = create_character_from_json(
+        Path('tests').joinpath('resources', 'characters', 'character_json_items.json'))
 
     result = Character(**DUMMY_CHARACTER, name='player 1', category=CharacterCategory.PLAYABLE)
     result.active_weapon = load_weapon_by_name('weapon')
