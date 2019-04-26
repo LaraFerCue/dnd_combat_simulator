@@ -174,3 +174,25 @@ def test_get_action_to_perform_spells():
     assert Combat.select_spell_or_weapon(character) == Combat.Action.CAST
     spell1.cast()
     assert Combat.select_spell_or_weapon(character) == Combat.Action.ATTACK
+
+
+def test_critical_roll_with_weapon():
+    character = Character(strength=16, dexterity=10, constitution=10, intelligence=10, wisdom=10, charisma=16,
+                          hit_points=20, category=CharacterCategory.INDIFFERENT, name='character')
+    character.active_weapon = Weapon(damage=Damage([MockingDie(4)], DamageType.PIERCING),
+                                     weapon_type=WeaponType.SIMPLE_MELEE)
+    assert Combat.get_weapon_damage(character, False) == (7, DamageType.PIERCING)
+    assert Combat.get_weapon_damage(character, True) == (14, DamageType.PIERCING)
+
+
+def test_critical_roll_with_spells():
+    spell1 = Spell(Damage([MockingDie(10)], DamageType.MAGIC_COLD), spell_lvl=2)
+    spell1.slots = 2
+
+    character = Character(strength=10, dexterity=10, constitution=10, intelligence=10, wisdom=10, charisma=16,
+                          hit_points=20, category=CharacterCategory.INDIFFERENT, name='character')
+    character.cast_ability = Ability.CHARISMA
+    character.spell_list.append(spell1)
+
+    assert Combat.get_spell_damage(character, False) == (10, DamageType.MAGIC_COLD)
+    assert Combat.get_spell_damage(character, True) == (20, DamageType.MAGIC_COLD)
