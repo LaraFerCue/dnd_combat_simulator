@@ -1,4 +1,4 @@
-from dnd.models.damage import Damage
+from dnd.models.damage import Damage, DamageType
 
 
 class SpellWornOut(BaseException):
@@ -19,6 +19,10 @@ class Spell:
     @property
     def times_used(self) -> int:
         return self.__used
+
+    @property
+    def damage_type(self) -> DamageType:
+        return self.__damage.damage_type
 
     def get_damage(self) -> int:
         return self.__damage.get_damage()

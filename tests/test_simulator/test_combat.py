@@ -172,6 +172,5 @@ def test_get_action_to_perform_spells():
     character.spell_list.append(spell1)
 
     assert Combat.select_spell_or_weapon(character) == Combat.Action.CAST
-    assert character.cast(MockingDie(10)) == 15
-    assert character.damage() in range(1, 11)
+    spell1.cast()
     assert Combat.select_spell_or_weapon(character) == Combat.Action.ATTACK

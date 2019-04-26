@@ -70,32 +70,30 @@ def test_character_attack():
                                      properties={WeaponProperty.AMMUNITION: (30, 120)})
     character.active_weapon.ammo = 120
 
-    assert character.attack(MockingDie(12)) == 15
+    assert character.attack_modifier == 3
 
     character.active_weapon = Weapon(damage=DUMMY_DAMAGE_D6, weapon_type=WeaponType.MARTIAL_MELEE)
-    assert character.attack(MockingDie(12)) == 13
+    assert character.attack_modifier == 1
 
     character.active_weapon = Weapon(damage=DUMMY_DAMAGE_D6, weapon_type=WeaponType.MARTIAL_MELEE,
                                      properties={WeaponProperty.FINESSE: True})
-    assert character.attack(MockingDie(12)) == 15
+    assert character.attack_modifier == 3
 
 
 def test_character_damage():
     character = Character(**DUMMY_CHARACTER)
-    character.active_weapon = DUMMY_PLAYER_WEAPON
 
-    assert character.damage() == 4
+    assert character.damage(DUMMY_PLAYER_WEAPON) == 4
 
 
 def test_character_attack_versatile_weapon():
     character = Character(**DUMMY_CHARACTER)
     weapon = Weapon.simple_melee(die_list=[MockingDie(4)], damage_type=DamageType.PIERCING, versatile=[MockingDie(6)])
-    character.active_weapon = weapon
 
-    assert character.damage() == 6
+    assert character.damage(weapon) == 6
 
     character.using_shield = True
-    assert character.damage() == 4
+    assert character.damage(weapon) == 4
 
 
 def test_character_armor_class():
@@ -116,13 +114,4 @@ def test_spell_caster_character():
     magic_arrow.slots = 2
     character.spell_list = [magic_arrow, Spell(Damage([MockingDie(4)], DamageType.MAGIC_COLD))]
 
-    assert character.cast(MockingDie(15)) == 17
-    assert character.damage() == 6
-    character.cast(MockingDie(15))
-    assert character.damage() == 6
-    character.cast(MockingDie(15))
-    assert character.damage() == 4
-    character.cast(MockingDie(15))
-    assert character.damage() == 4
-    character.cast(MockingDie(15))
-    assert character.damage() == 4
+    assert character.cast_modifier == 2

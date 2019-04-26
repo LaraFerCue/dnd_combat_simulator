@@ -1,9 +1,8 @@
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from dnd.models.armor import Armor
 from dnd.models.damage import DamageType
-from dnd.models.die import D20, Die
 from dnd.models.feat import Feat, FeatType, Resistance
 from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponProperty
@@ -60,7 +59,6 @@ class Character:
 
         self.cast_ability: Ability = Ability.NONE
         self.spell_list: List[Spell] = []
-        self.__casted_spell: Spell = None
 
         self.__health_points: int = hit_points
         self.__category = category
@@ -156,6 +154,17 @@ class Character:
         return mod
 
     @property
+    def cast_modifier(self) -> int:
+        return self.get_ability_modifier(self.cast_ability) + self.__proficiency
+
+    @property
+    def attack_modifier(self) -> int:
+        attack_mod = self.get_ability_modifier(Ability.STRENGTH)
+        if self.active_weapon.check_property(WeaponProperty.FINESSE) or self.active_weapon.is_ranged:
+            attack_mod = self.get_ability_modifier(Ability.DEXTERITY)
+        return attack_mod + self.__proficiency
+
+    @property
     def hit_points(self):
         return self.__health_points
 
@@ -167,27 +176,14 @@ class Character:
 
         self.__health_points -= damage
 
-    def damage(self) -> int:
-        if self.__casted_spell is not None:
-            return self.__casted_spell.get_damage()
-        return self.active_weapon.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
-                                             dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
-                                             use_two_handed=not self.using_shield)
+    def damage(self, weapon_or_spell: Union[Spell, Weapon]) -> int:
+        if isinstance(weapon_or_spell, Spell):
+            weapon_or_spell.cast()
+            weapon_or_spell.get_damage()
 
-    def cast(self, die: Die = D20) -> int:
-        for spell in self.spell_list:
-            if spell.can_be_casted():
-                self.__casted_spell = spell
-                spell.cast()
-                return die.roll() + self.get_ability_modifier(self.cast_ability) + self.__proficiency
-        self.__casted_spell = None
-        return -1
-
-    def attack(self, die: Die = D20) -> int:
-        attack_mod = self.get_ability_modifier(Ability.STRENGTH)
-        if self.active_weapon.check_property(WeaponProperty.FINESSE) or self.active_weapon.is_ranged:
-            attack_mod = self.get_ability_modifier(Ability.DEXTERITY)
-        return die.roll() + attack_mod + self.__proficiency
+        return weapon_or_spell.get_damage(strength_mod=self.get_ability_modifier(Ability.STRENGTH),
+                                          dexterity_mod=self.get_ability_modifier(Ability.DEXTERITY),
+                                          use_two_handed=not self.using_shield)
 
     def get_ability_modifier(self, ability: Ability):
         return Character.get_modifier(self.abilities[ability])
