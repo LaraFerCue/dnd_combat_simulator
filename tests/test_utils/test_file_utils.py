@@ -75,6 +75,23 @@ def test_create_character_from_json_file():
     assert json_character == result
 
 
+def test_load_character_with_spells():
+    loaded_character = create_character_from_json_file(
+        Path('tests').joinpath('resources', 'characters', 'character_with_spells.json'))
+    character = Character(**DUMMY_CHARACTER, name='player 1', category=CharacterCategory.PLAYABLE)
+    spell1 = load_spell_by_name('spell1')
+    spell2 = load_spell_by_name('spell2')
+    spell3 = load_spell_by_name('spell3')
+
+    spell1.slots = 0
+    spell2.slots = 2
+    spell3.slots = 1
+
+    character.spell_list = [spell1, spell2, spell3]
+
+    assert loaded_character == character
+
+
 def test_load_party_from_folder():
     player1 = create_character_from_json_file(Path('tests').joinpath('resources', 'party', 'player1.json'))
     player2 = create_character_from_json_file(Path('tests').joinpath('resources', 'party', 'player2.json'))

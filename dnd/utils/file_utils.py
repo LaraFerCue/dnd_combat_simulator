@@ -49,6 +49,11 @@ def create_character_from_json_file(json_file_path: Path) -> Character:
             character.armor = load_armor_by_name(json_dict['armor'])
         else:
             character.armor = create_armor_from_dictionary(json_dict['armor'])
+    if 'spells' in json_dict:
+        for spell_name, spell_slots in json_dict['spells'].items():
+            spell = load_spell_by_name(spell_name)
+            spell.slots = spell_slots
+            character.spell_list.append(spell)
     return character
 
 
