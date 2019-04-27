@@ -56,6 +56,8 @@ def create_character_from_json_file(json_file_path: Path) -> Character:
             character.spell_list.append(spell)
     if 'feats' in json_dict:
         character.feat_list = get_feat_list(json_dict['feats'])
+    if 'using_shield' in json_dict:
+        character.using_shield = json_dict['using_shield']
     return character
 
 
