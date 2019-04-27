@@ -2,5 +2,5 @@
   "iterations": 5000,
   "players-folder": "party",
   "enemies-folder": "enemies",
-  "results-folder": "results"
+  "results-file": "results.csv"
 }

@@ -17,4 +17,4 @@ def test_load_configuration():
     assert set(players) == {player1, player2, player3}
     assert set(enemies) == {enemy1}
     assert iterations == 5000
-    assert results_folder.absolute() == Path('tests').joinpath('resources', 'results').absolute()
+    assert results_folder.absolute() == Path('tests').joinpath('resources', 'results.csv').absolute()

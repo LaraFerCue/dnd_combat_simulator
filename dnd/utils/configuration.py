@@ -15,5 +15,5 @@ def read_configuration(configuration_json_file: Path) -> Tuple[List[Character], 
     enemies_folder = configuration_json_file.parent.joinpath(json_dict['enemies-folder'])
     players = load_party_from_folder(players_folder)
     enemies = load_party_from_folder(enemies_folder)
-    results_directory = configuration_json_file.parent.joinpath(json_dict['results-folder'])
+    results_directory = configuration_json_file.parent.joinpath(json_dict['results-file'])
     return players, enemies, iterations, results_directory
