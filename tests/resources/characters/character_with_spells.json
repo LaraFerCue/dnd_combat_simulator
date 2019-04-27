@@ -14,5 +14,6 @@
     "spell1": 0,
     "spell2": 2,
     "spell3": 1
-  }
+  },
+  "cast_ability": "charisma"
 }

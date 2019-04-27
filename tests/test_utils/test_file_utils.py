@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 
 from dnd.models.armor import Armor, ArmorType
-from dnd.models.character import Character, CharacterCategory
+from dnd.models.character import Character, CharacterCategory, Ability
 from dnd.models.damage import Damage, DamageType
 from dnd.models.die import D6, D8, D10
 from dnd.models.feat import Resistance, Vulnerability
@@ -89,6 +89,7 @@ def test_load_character_with_spells():
     spell3.slots = 1
 
     character.spell_list = [spell1, spell2, spell3]
+    character.cast_ability = Ability.CHARISMA
 
     assert loaded_character == character
 
