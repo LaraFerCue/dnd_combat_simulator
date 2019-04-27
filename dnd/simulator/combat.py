@@ -62,6 +62,8 @@ class Combat:
         return statistics
 
     def initiate_combat(self) -> Result:
+        self.__reset_combat()
+
         while not self.__lose_checker(self.__players):
             self._turn_actions()
             self.__turn += 1
@@ -73,6 +75,13 @@ class Combat:
                 return Combat.Result.WIN
 
         return Combat.Result.LOSE
+
+    def __reset_combat(self):
+        self.__turn = 0
+        for player in self.__players:
+            player.reset()
+        for enemy in self.__enemies:
+            enemy.reset()
 
     @staticmethod
     def select_available_spell(character: Character) -> Union[Spell, None]:

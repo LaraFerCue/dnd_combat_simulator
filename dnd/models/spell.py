@@ -39,6 +39,9 @@ class Spell:
             return True
         return False
 
+    def reset(self):
+        self.__used = 0
+
     def __hash__(self) -> int:
         return hash(self.__damage)
 

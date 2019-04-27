@@ -60,7 +60,8 @@ class Character:
         self.cast_ability: Ability = Ability.NONE
         self.spell_list: List[Spell] = []
 
-        self.__health_points: int = hit_points
+        self.__hit_points: int = hit_points
+        self.__maximum_hit_points: int = hit_points
         self.__category = category
 
     def __repr__(self) -> str:
@@ -73,7 +74,7 @@ class Character:
             'active_weapon': str(self.active_weapon),
             'using_shield': str(self.using_shield),
             'feats': str(self.feat_list),
-            'hit_points': str(self.__health_points),
+            'hit_points': str(self.__hit_points),
             'category': self.category.value
         }
         return str(dictionary)
@@ -97,27 +98,9 @@ class Character:
 
         for item in self.spell_list:
             calculated_hash += hash(item)
-        calculated_hash += self.__health_points
+        calculated_hash += self.__hit_points
         calculated_hash += hash(self.__category.value)
         return calculated_hash
-
-    def __eq__(self, other):
-        return hash(self) == hash(other)
-
-    def __gt__(self, other):
-        return hash(self) > hash(other)
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __lt__(self, other):
-        return not self > other and not self == other
-
-    def __ge__(self, other):
-        return not self < other
-
-    def __le__(self, other):
-        return not self > other
 
     @property
     def name(self) -> str:
@@ -143,16 +126,6 @@ class Character:
             raise AttributeError(f"The proficiency value cannot be negative. Value: {value}.")
         self.__proficiency = value
 
-    @staticmethod
-    def check_ability(ability: int, ability_name: Ability):
-        if ability < 0 or ability > 20:
-            raise AttributeError(f"The abilities must be in range [0, 20]. Found: {ability_name.value} = {ability}")
-
-    @staticmethod
-    def get_modifier(ability: int) -> int:
-        mod = int(ability / 2) - 5
-        return mod
-
     @property
     def cast_modifier(self) -> int:
         return self.get_ability_modifier(self.cast_ability) + self.__proficiency
@@ -166,7 +139,7 @@ class Character:
 
     @property
     def hit_points(self):
-        return self.__health_points
+        return self.__hit_points
 
     def apply_damage(self, damage: int, damage_type: DamageType):
         for feat in self.feat_list:
@@ -174,7 +147,7 @@ class Character:
                 resistance: Resistance = feat
                 damage = resistance.modify_damage(damage, damage_type)
 
-        self.__health_points -= damage
+        self.__hit_points -= damage
 
     def damage(self, weapon_or_spell: Union[Spell, Weapon]) -> int:
         if isinstance(weapon_or_spell, Spell):
@@ -187,3 +160,36 @@ class Character:
 
     def get_ability_modifier(self, ability: Ability):
         return Character.get_modifier(self.abilities[ability])
+
+    def reset(self):
+        self.__hit_points = self.__maximum_hit_points
+        for spell in self.spell_list:
+            spell.reset()
+
+    @staticmethod
+    def check_ability(ability: int, ability_name: Ability):
+        if ability < 0 or ability > 20:
+            raise AttributeError(f"The abilities must be in range [0, 20]. Found: {ability_name.value} = {ability}")
+
+    @staticmethod
+    def get_modifier(ability: int) -> int:
+        mod = int(ability / 2) - 5
+        return mod
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __gt__(self, other):
+        return hash(self) > hash(other)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __lt__(self, other):
+        return not self > other and not self == other
+
+    def __ge__(self, other):
+        return not self < other
+
+    def __le__(self, other):
+        return not self > other
