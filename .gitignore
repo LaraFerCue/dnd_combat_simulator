@@ -75,3 +75,4 @@ pip-selfcheck.json
 /dnd_combat_simulator.iml
 /data/*
 /htmlcov/
+/.coverage
