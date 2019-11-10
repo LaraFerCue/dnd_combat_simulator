@@ -1,7 +1,8 @@
 from enum import Enum
 from typing import Union, Dict, Tuple
 
-from dnd.models.damage import Damage
+from dnd.models.damage import Damage, DamageType
+from dnd.models.die import D1
 
 
 class WeaponType(Enum):
@@ -131,3 +132,7 @@ class Weapon:
         for key, value in kwargs.items():
             properties[WeaponProperty(key)] = value
         return Weapon(damage=damage, weapon_type=weapon_type, properties=properties)
+
+    @staticmethod
+    def get_natural_weapon():
+        return Weapon(damage=Damage([D1], DamageType.BLUDGEONING), weapon_type=WeaponType.SIMPLE_MELEE)

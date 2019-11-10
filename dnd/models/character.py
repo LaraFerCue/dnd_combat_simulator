@@ -3,7 +3,7 @@ from typing import Dict, List, Union
 
 from dnd.models.armor import Armor
 from dnd.models.damage import DamageType
-from dnd.models.feat import Feat, FeatType, Resistance
+from dnd.models.feat import Feat, Resistance
 from dnd.models.spell import Spell
 from dnd.models.weapon import Weapon, WeaponProperty
 
@@ -50,9 +50,9 @@ class Character:
         }
         self.__proficiency: int = 2
 
-        self.armor: Armor = None
+        self.armor: Armor = Armor.get_natural_armor()
         self.weapons: List[Weapon] = []
-        self.active_weapon: Weapon = None
+        self.active_weapon: Weapon = Weapon.get_natural_weapon()
         self.using_shield: bool = False
 
         self.feat_list: List[Feat] = []
@@ -143,9 +143,8 @@ class Character:
 
     def apply_damage(self, damage: int, damage_type: DamageType):
         for feat in self.feat_list:
-            if feat.feat_type == FeatType.RESISTANCE:
-                resistance: Resistance = feat
-                damage = resistance.modify_damage(damage, damage_type)
+            if isinstance(feat, Resistance):
+                damage = feat.modify_damage(damage, damage_type)
 
         self.__hit_points -= damage
 

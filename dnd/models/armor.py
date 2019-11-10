@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class ArmorType(Enum):
+    NONE = "none"
     LIGHT = "Light"
     MEDIUM = "Medium"
     HEAVY = "Heavy"
@@ -34,3 +35,7 @@ class Armor:
         if with_shield:
             armor_class += 2
         return armor_class
+
+    @staticmethod
+    def get_natural_armor():
+        return Armor(10, ArmorType.NONE)
