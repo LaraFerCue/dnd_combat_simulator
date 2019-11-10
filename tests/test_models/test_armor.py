@@ -54,3 +54,8 @@ def test_different_armors():
     assert Armor(10, ArmorType.LIGHT) != Armor(11, ArmorType.LIGHT)
     assert Armor(10, ArmorType.LIGHT) != Armor(10, ArmorType.HEAVY)
     assert Armor(10, ArmorType.HEAVY) != Armor(11, ArmorType.LIGHT)
+
+
+def test_representation():
+    armor = Armor(10, ArmorType.HEAVY)
+    assert str(armor) == "10 | Heavy"

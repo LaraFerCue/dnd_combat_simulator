@@ -24,22 +24,6 @@ class Armor:
     def __ne__(self, other: 'Armor'):
         return not self == other
 
-    def __gt__(self, other: 'Armor'):
-        return self.__hash__() > other.__hash__()
-
-    def __lt__(self, other: 'Armor'):
-        return self.__hash__() < other.__hash__()
-
-    def __ge__(self, other):
-        return not self < other
-
-    def __le__(self, other):
-        return not self > other
-
-    @property
-    def armor_type(self):
-        return self.__type
-
     def get_armor_class(self, dexterity_modifier: int, with_shield: bool = False) -> int:
         armor_class = self.__armor_class
         if self.__type == ArmorType.MEDIUM:
