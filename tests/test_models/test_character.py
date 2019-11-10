@@ -15,6 +15,10 @@ def test_character_check_ability_negative():
         Character.check_ability(-1, Ability.CHARISMA)
 
 
+def test_ability_representation():
+    assert Ability.CHARISMA.__repr__() == 'charisma'
+
+
 def test_character_check_ability_huge():
     with pytest.raises(AttributeError):
         Character.check_ability(22, Ability.CHARISMA)
