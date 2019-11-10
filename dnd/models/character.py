@@ -179,17 +179,5 @@ class Character:
     def __eq__(self, other):
         return hash(self) == hash(other)
 
-    def __gt__(self, other):
-        return hash(self) > hash(other)
-
     def __ne__(self, other):
         return not self == other
-
-    def __lt__(self, other):
-        return not self > other and not self == other
-
-    def __ge__(self, other):
-        return not self < other
-
-    def __le__(self, other):
-        return not self > other
