@@ -74,3 +74,4 @@ pip-selfcheck.json
 /.idea/encodings.xml
 /dnd_combat_simulator.iml
 /data/*
+/htmlcov/
